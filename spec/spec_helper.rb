@@ -9,6 +9,11 @@ RSpec.configure do |config|
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
 
+  Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }
+  RSpec.configure do |config|
+    config.include VerifactuHelpers
+  end
+
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end

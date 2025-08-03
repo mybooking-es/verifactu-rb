@@ -2,12 +2,75 @@ PATH
   remote: .
   specs:
     verifactu-rb (0.1.0)
+      bigdecimal
+      nokogiri (= 1.17.2)
+      rack (~> 2.2)
+      savon
 
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
+    akami (1.3.3)
+      base64
+      gyoku (>= 0.4.0)
+      nokogiri
+    base64 (0.3.0)
+    bigdecimal (3.2.2)
+    builder (3.3.0)
+    date (3.4.1)
     diff-lcs (1.6.2)
+    faraday (2.13.4)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
+    faraday-net_http (3.4.1)
+      net-http (>= 0.5.0)
+    gyoku (1.4.0)
+      builder (>= 2.1.2)
+      rexml (~> 3.0)
+    httpi (4.0.4)
+      base64
+      mutex_m
+      nkf
+      rack (>= 2.0, < 4)
+    json (2.13.2)
+    logger (1.7.0)
+    mail (2.8.1)
+      mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
+    mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
+    mutex_m (0.3.0)
+    net-http (0.6.0)
+      uri
+    net-imap (0.5.9)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.2)
+      timeout
+    net-smtp (0.5.1)
+      net-protocol
+    nkf (0.2.0)
+    nokogiri (1.17.2)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
+    nokogiri (1.17.2-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.17.2-x64-mingw-ucrt)
+      racc (~> 1.4)
+    nori (2.7.1)
+      bigdecimal
+    public_suffix (6.0.2)
+    racc (1.8.1)
+    rack (2.2.17)
     rake (13.3.0)
+    rexml (3.4.1)
     rspec (3.13.1)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -21,10 +84,26 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.4)
+    savon (2.15.1)
+      akami (~> 1.2)
+      builder (>= 2.1.2)
+      gyoku (~> 1.2)
+      httpi (>= 4, < 5)
+      mail (~> 2.5)
+      nokogiri (>= 1.8.1)
+      nori (~> 2.4)
+      wasabi (>= 3.7, < 6)
+    timeout (0.4.3)
+    uri (1.0.3)
+    wasabi (5.1.0)
+      addressable
+      faraday (>= 1.9, < 3)
+      nokogiri (>= 1.13.9)
 
 PLATFORMS
   arm64-darwin-22
   ruby
+  x64-mingw-ucrt
 
 DEPENDENCIES
   rake (~> 13.0)

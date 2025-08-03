@@ -1,84 +1,95 @@
+XML ENERO 2025 (DESACTUALIZADO)
+
+
 <soapenv:Envelope
-	xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-	xmlns:sum="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/SuministroL
-R.xsd"
-	xmlns:sum1="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/Suministro
-Informacion.xsd">
+	xmlns:sum="XXX"
+	xmlns:sum1="XXX"
+	xmlns:soapenv="XXX">
 	<soapenv:Header/>
-	<soapenv:Body>
-		<sum:AltaFactuSistemaFacturacion>
-			<sum1:Cabecera>
-				<sum1:IDVersion>1.0</sum1:IDVersion>
+	<soapenv:Body
+		xmlns:sum="XXX"
+		xmlns:sum1="XXX">
+		<sum:RegFactuSistemaFacturacion
+			xmlns:sum="XXX"
+			xmlns:sum1="XXX">
+			<sum:Cabecera>
 				<sum1:ObligadoEmision>
-					<sum1:NombreRazon>Empresa VeriFactu</sum1:NombreRazon>
-					<sum1:NIF>NIF</sum1:NIF>
+					<sum1:NombreRazon>CERTIFICADO ENTIDAD PRUEBAS</sum1:NombreRazon>
+					<sum1:NIF>A39200019</sum1:NIF>
 				</sum1:ObligadoEmision>
-				<sum1:TipoRegistroAEAT>T0</sum1:TipoRegistroAEAT>
-			</sum1:Cabecera>
-			<sum:RegistroAltaFacturas>
-				<sum:RegistroFacturacion>
+			</sum:Cabecera>
+			<sum:RegistroFactura
+				xmlns:sum="XXX"
+				xmlns:sum1="XXX">
+				<sum1:RegistroAlta>
+					<sum1:IDVersion>1.0</sum1:IDVersion>
 					<sum1:IDFactura>
-						<sum1:IDEmisorFactura>
-							<sum1:NIF>NIF</sum1:NIF>
-						</sum1:IDEmisorFactura>
-						<sum1:NumSerieFacturaEmisor>12345</sum1:NumSerieFacturaEmisor>
-						<sum1:FechaExpedicionFacturaEmisor>13-11-2023</sum1:FechaExpedicionFacturaEmisor>
+						<sum1:IDEmisorFactura>A39200019</sum1:IDEmisorFactura>
+						<sum1:NumSerieFactura>VF280225/00088</sum1:NumSerieFactura>
+						<sum1:FechaExpedicionFactura>02-04-2025</sum1:FechaExpedicionFactura>
 					</sum1:IDFactura>
-					<sum1:NombreRazonEmisor>certificado uno telematicas</sum1:NombreRazonEmisor>
-					<sum1:TipoRegistroSIF>S0</sum1:TipoRegistroSIF>
+					<sum1:RefExterna>3115_17435807526162</sum1:RefExterna>
+					<sum1:NombreRazonEmisor>CERTIFICADO ENTIDAD PRUEBAS</sum1:NombreRazonEmisor>
 					<sum1:TipoFactura>F1</sum1:TipoFactura>
-					<sum1:DescripcionOperacion>Descripc</sum1:DescripcionOperacion>
+					<sum1:DescripcionOperacion>Concepto 3, Concepto 2, Concepto 1</sum1:DescripcionOperacion>
 					<sum1:Destinatarios>
 						<sum1:IDDestinatario>
-							<sum1:NombreRazon>Empresa VeriFactu</sum1:NombreRazon>
-							<sum1:NIF>NIF</sum1:NIF>
+							<sum1:NombreRazon>XXXX</sum1:NombreRazon>
+							<sum1:NIF>XXXX</sum1:NIF>
 						</sum1:IDDestinatario>
 					</sum1:Destinatarios>
 					<sum1:Desglose>
 						<sum1:DetalleDesglose>
+							<sum1:Impuesto>01</sum1:Impuesto>
 							<sum1:ClaveRegimen>01</sum1:ClaveRegimen>
 							<sum1:CalificacionOperacion>S1</sum1:CalificacionOperacion>
-							<sum1:TipoImpositivo>4</sum1:TipoImpositivo>
-							<sum1:BaseImponibleOimporteNoSujeto>10</sum1:BaseImponibleOimporteNoSujeto>
-							<sum1:CuotaRepercutida>0.4</sum1:CuotaRepercutida>
+							<sum1:TipoImpositivo>4.00</sum1:TipoImpositivo>
+							<sum1:BaseImponibleOimporteNoSujeto>4.81</sum1:BaseImponibleOimporteNoSujeto>
+							<sum1:CuotaRepercutida>0.19</sum1:CuotaRepercutida>
 						</sum1:DetalleDesglose>
 						<sum1:DetalleDesglose>
+							<sum1:Impuesto>01</sum1:Impuesto>
 							<sum1:ClaveRegimen>01</sum1:ClaveRegimen>
 							<sum1:CalificacionOperacion>S1</sum1:CalificacionOperacion>
-							<sum1:TipoImpositivo>21</sum1:TipoImpositivo>
-							<sum1:BaseImponibleOimporteNoSujeto>100</sum1:BaseImponibleOimporteNoSujeto>
-							<sum1:CuotaRepercutida>21</sum1:CuotaRepercutida>
+							<sum1:TipoImpositivo>10.00</sum1:TipoImpositivo>
+							<sum1:BaseImponibleOimporteNoSujeto>4.55</sum1:BaseImponibleOimporteNoSujeto>
+							<sum1:CuotaRepercutida>0.45</sum1:CuotaRepercutida>
+						</sum1:DetalleDesglose>
+						<sum1:DetalleDesglose>
+							<sum1:Impuesto>01</sum1:Impuesto>
+							<sum1:ClaveRegimen>01</sum1:ClaveRegimen>
+							<sum1:CalificacionOperacion>S1</sum1:CalificacionOperacion>
+							<sum1:TipoImpositivo>21.00</sum1:TipoImpositivo>
+							<sum1:BaseImponibleOimporteNoSujeto>4.13</sum1:BaseImponibleOimporteNoSujeto>
+							<sum1:CuotaRepercutida>0.87</sum1:CuotaRepercutida>
 						</sum1:DetalleDesglose>
 					</sum1:Desglose>
-					<sum1:ImporteTotal>131.4</sum1:ImporteTotal>
-					<sum1:EncadenamientoRegistroAnterior>
-						<sum1:IDEmisorFacturaRegistroAnterior>
-							<sum1:NIF>NIF</sum1:NIF>
-						</sum1:IDEmisorFacturaRegistroAnterior>
-						<sum1:NumSerieFacturaRegistroAnterior>44</sum1:NumSerieFacturaRegistroAnterior>
-						<sum1:FechaExpedicionFacturaRegistroAnterior>13-02-2022</sum1:FechaExpedicionFacturaRegistroAnterior>
-						<sum1:HuellaRegistroAnterior>HuellaRegistroAnterior</sum1:HuellaRegistroAnterior>
-					</sum1:EncadenamientoRegistroAnterior>
+					<sum1:CuotaTotal>1.51</sum1:CuotaTotal>
+					<sum1:ImporteTotal>15</sum1:ImporteTotal>
+					<sum1:Encadenamiento>
+						<sum1:RegistroAnterior>
+							<sum1:IDEmisorFactura>A39200019</sum1:IDEmisorFactura>
+							<sum1:NumSerieFactura>VF280225/00087</sum1:NumSerieFactura>
+							<sum1:FechaExpedicionFactura>01-04-2025</sum1:FechaExpedicionFactura>
+							<sum1:Huella>9299FE546502C9ED70E895DF9D039FE7BC3F200B64ECF7AA2402734D02EC6EBA</sum1:Huella>
+						</sum1:RegistroAnterior>
+					</sum1:Encadenamiento>
 					<sum1:SistemaInformatico>
-						<sum1:NombreRazon>CERTIFICADO DOS TELEMATICAS</sum1:NombreRazon>
-						<sum1:NIF>NIF</sum1:NIF>
-						<sum1:NombreSistemaInformatico>NombreSistemaInformatico</sum1:NombreSistemaInformatico>
+						<sum1:NombreRazon>XXXX</sum1:NombreRazon>
+						<sum1:NIF>A39200019</sum1:NIF>
+						<sum1:NombreSistemaInformatico>XXXX</sum1:NombreSistemaInformatico>
 						<sum1:IdSistemaInformatico>77</sum1:IdSistemaInformatico>
 						<sum1:Version>1.0.03</sum1:Version>
 						<sum1:NumeroInstalacion>383</sum1:NumeroInstalacion>
-						<sum1:TipoUsoPosibleSoloVerifactu>S</sum1:TipoUsoPosibleSoloVerifactu>
-						<sum1:TipoUsoPosibleOtros>N</sum1:TipoUsoPosibleOtros>
-						<sum1:TipoUsoPosibleMultiOT>N</sum1:TipoUsoPosibleMultiOT>
+						<sum1:TipoUsoPosibleSoloVerifactu>N</sum1:TipoUsoPosibleSoloVerifactu>
+						<sum1:TipoUsoPosibleMultiOT>S</sum1:TipoUsoPosibleMultiOT>
+						<sum1:IndicadorMultiplesOT>S</sum1:IndicadorMultiplesOT>
 					</sum1:SistemaInformatico>
-					<sum1:FechaGenRegistro>13-11-2023</sum1:FechaGenRegistro>
-					<sum1:HoraGenRegistro>20:59:25</sum1:HoraGenRegistro>
-					<sum1:HusoHorarioGenRegistro>02</sum1:HusoHorarioGenRegistro>
-				</sum:RegistroFacturacion>
-				<sum:DatosControl>
-					<sum1:Huella>Huella</sum1:Huella>
-					<sum1:TipoHash>01</sum1:TipoHash>
-				</sum:DatosControl>
-			</sum:RegistroAltaFacturas>
-		</sum:AltaFactuSistemaFacturacion>
+					<sum1:FechaHoraHusoGenRegistro>2025-04-02T09:59:12+02:00</sum1:FechaHoraHusoGenRegistro>
+					<sum1:TipoHuella>01</sum1:TipoHuella>
+					<sum1:Huella>E160BD5C70481FBDE51474EB59552AA45F48E092982AD16D11F11D3E24740861</sum1:Huella>
+				</sum1:RegistroAlta>
+			</sum:RegistroFactura>
+		</sum:RegFactuSistemaFacturacion>
 	</soapenv:Body>
 </soapenv:Envelope>
