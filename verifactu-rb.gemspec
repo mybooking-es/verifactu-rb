@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "bigdecimal"
   spec.add_dependency "savon"
   spec.add_dependency "rack", "~> 2.2"
+  spec.add_dependency "rqrcode"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
