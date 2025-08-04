@@ -24,4 +24,5 @@ require_relative "verifactu/registro_alta_xml_builder"
 require_relative "verifactu/reg_factu_sistema_facturacion_xml_builder"
 require_relative "verifactu/envio_verifactu_service"
 
+
 require_relative "verifactu/version"
