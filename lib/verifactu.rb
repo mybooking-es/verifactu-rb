@@ -6,6 +6,7 @@ require 'erb'
 require_relative "verifactu/config/verifactu_config"
 require_relative "verifactu/helpers/validador"
 require_relative "verifactu/helpers/generar_huella_registro_alta"
+require_relative "verifactu/helpers/xsd_loader"
 require_relative "verifactu/helpers/valida_suministro_xsd"
 
 require_relative "verifactu/registro_facturacion/registro_alta"

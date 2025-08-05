@@ -14,7 +14,7 @@ RSpec.describe Verifactu::RegistroAltaXmlBuilder do
 
       # Genera el XML
       x = Verifactu::RegistroAltaXmlBuilder.build(registo_alta_factura)
-      p "xml: #{x.root.to_xml}"
+      #p "xml: #{x.root.to_xml}"
 
     end
 

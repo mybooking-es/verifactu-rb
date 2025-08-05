@@ -22,6 +22,8 @@ RSpec.describe Verifactu::RegFactuSistemaFacturacionXmlBuilder do
       # Validación del XML contra el esquema XSD
       validate_schema = Verifactu::Helpers::ValidaSuministroXSD.execute(xml.root.to_xml)
 
+      p "validate_schema: #{validate_schema.inspect}"
+
       expect(validate_schema[:valid]).to be true
 
     end
