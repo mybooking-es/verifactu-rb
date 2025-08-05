@@ -6,7 +6,7 @@ module Verifactu
     class SistemaInformatico
       attr_reader :nombre_razon, :nif, :id_otro, :nombre_sistema_informatico,
                   :id_sistema_informatico, :version, :numero_instalacion,
-                  :tipo_uso_posible_solo_verifactu, :tipo_uso_posible_multi_ot, :indicador_multi_ot
+                  :tipo_uso_posible_solo_verifactu, :tipo_uso_posible_multi_ot, :indicador_multiples_ot
 
       # Initializes a new instance of the Sif class.
       #
@@ -22,7 +22,7 @@ module Verifactu
       #
       def initialize(nombre_razon:, nif: nil, id_otro: nil, nombre_sistema_informatico: nil, id_sistema_informatico:,
                     version:, numero_instalacion:,
-                    tipo_uso_posible_solo_verifactu:, tipo_uso_posible_multi_ot:, indicador_multi_ot:)
+                    tipo_uso_posible_solo_verifactu:, tipo_uso_posible_multi_ot:, indicador_multiples_ot:)
         raise ArgumentError, "nombre_razon is required" if nombre_razon.nil? || nombre_razon.empty?
         raise ArgumentError, "nif o id_otro is required" if nif.nil? && id_otro.nil?
         raise ArgumentError, "solo se puede definir nif o id_otro, no ambos" if nif && id_otro
@@ -33,7 +33,7 @@ module Verifactu
         # En un lugar pone obligatorio y en otro opcional, se deja como obligatorio
         raise ArgumentError, "tipo_uso_posible_solo_verifactu is required" if tipo_uso_posible_solo_verifactu.nil?
         raise ArgumentError, "tipo_uso_posible_multi_ot is required" if tipo_uso_posible_multi_ot.nil?
-        raise ArgumentError, "indicador_multi_ot is required" if indicador_multi_ot.nil?
+        raise ArgumentError, "indicador_multiples_ot is required" if indicador_multiples_ot.nil?
 
         raise ArgumentError, "nombre_razon debe ser una String" unless nombre_razon.is_a?(String)
         raise ArgumentError, "nombre_razon debe tener un maximo de 120 caracteres" if nombre_razon.length > 120
@@ -67,8 +67,8 @@ module Verifactu
           raise ArgumentError, "tipo_uso_posible_multi_ot debe estar en #{Verifactu::Config::L4.join(', ')}" unless Verifactu::Config::L4.include?(tipo_uso_posible_multi_ot.upcase)
         end
 
-        if indicador_multi_ot
-          raise ArgumentError, "indicador_multi_ot debe estar en #{Verifactu::Config::L14.join(', ')}" unless Verifactu::Config::L14.include?(indicador_multi_ot.upcase)
+        if indicador_multiples_ot
+          raise ArgumentError, "indicador_multiples_ot debe estar en #{Verifactu::Config::L14.join(', ')}" unless Verifactu::Config::L14.include?(indicador_multiples_ot.upcase)
         end
 
         @nombre_razon = nombre_razon
@@ -79,7 +79,7 @@ module Verifactu
         @numero_instalacion = numero_instalacion
         @tipo_uso_posible_solo_verifactu = tipo_uso_posible_solo_verifactu.upcase
         @tipo_uso_posible_multi_ot = tipo_uso_posible_multi_ot.upcase
-        @indicador_multi_ot = indicador_multi_ot.upcase
+        @indicador_multiples_ot = indicador_multiples_ot.upcase
       end
     end
   end

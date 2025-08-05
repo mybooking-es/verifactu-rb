@@ -170,9 +170,9 @@ module Verifactu
       sistema_informatico_tipo_uso_posible_multi_ot_element = Nokogiri::XML::Node.new('sum1:TipoUsoPosibleMultiOT', xml_document_root)
       sistema_informatico_tipo_uso_posible_multi_ot_element.content = registro.sistema_informatico.tipo_uso_posible_multi_ot
       sistema_informatico_element.add_child(sistema_informatico_tipo_uso_posible_multi_ot_element)
-      sistema_informatico_indicador_multi_ot_element = Nokogiri::XML::Node.new('sum1:IndicadorMultiplesOT', xml_document_root)
-      sistema_informatico_indicador_multi_ot_element.content = registro.sistema_informatico.indicador_multi_ot
-      sistema_informatico_element.add_child(sistema_informatico_indicador_multi_ot_element)
+      sistema_informatico_indicador_multiples_ot_element = Nokogiri::XML::Node.new('sum1:IndicadorMultiplesOT', xml_document_root)
+      sistema_informatico_indicador_multiples_ot_element.content = registro.sistema_informatico.indicador_multiples_ot
+      sistema_informatico_element.add_child(sistema_informatico_indicador_multiples_ot_element)
       xml_document_root.add_child(sistema_informatico_element)
 
       # Agregar FechaHoraHusoGenRegistro

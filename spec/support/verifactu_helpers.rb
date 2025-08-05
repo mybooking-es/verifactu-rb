@@ -37,7 +37,9 @@ module VerifactuHelpers
 
   def registro_alta_factura_valido(huella = huella_valida)
     Verifactu::RegistroAltaBuilder.new
-      .con_id_factura('B12345674', 'NC202500051', '22-07-2025')
+      .con_id_factura(id_emisor_factura: 'B12345674',
+                      num_serie_factura: 'NC202500051',
+                      fecha_expedicion_factura: '22-07-2025')
       .con_nombre_razon_emisor('Mi empresa SL')
       .con_tipo_factura('F1')
       .con_descripcion_operacion('Factura Reserva 2.731 - 22/07/2025 10:00 - 22/10/2025 10:00 - AAA-0009')
@@ -52,7 +54,7 @@ module VerifactuHelpers
                                nombre_sistema_informatico: 'Mi sistema', id_sistema_informatico: 'MB',
                                version: '1.0.0', numero_instalacion: 'Instalación 1',
                                tipo_uso_posible_solo_verifactu: 'S', tipo_uso_posible_multi_ot: 'S',
-                               indicador_multi_ot: 'S')
+                               indicador_multiples_ot: 'S')
       .con_fecha_hora_huso_gen_registro('2025-07-22T10:00:00+02:00')
       .con_tipo_huella('01')
       .con_huella(huella)

@@ -83,6 +83,5 @@ module Verifactu
         MARGEN_ERROR_CUOTA_TOTAL = 10.00
         MARGEN_ERROR_IMPORTE_TOTAL = 10.00
 
-        URL_QR = ENV['VERIFACTU_URL_QR'] || "https://prewww2.aeat.es/wlpl/TIKE-CONT/ValidarQR"
     end
 end
