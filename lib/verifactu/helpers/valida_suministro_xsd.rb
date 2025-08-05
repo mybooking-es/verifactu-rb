@@ -16,7 +16,9 @@ module Verifactu
       def self.execute(xml_str)
 
         # Cargar el esquema XSD desde el fichero local
-        xsd_content = File.read('SuministroLR.xsd')
+        #xsd_content = File.read('SuministroLR.xsd')
+        xsd_path = File.expand_path('../../../../SuministroLR.xsd', __FILE__)
+        xsd_content = File.read(xsd_path)
         xsd = Nokogiri::XML::Schema(xsd_content)
 
         # Parsear el XML de entrada

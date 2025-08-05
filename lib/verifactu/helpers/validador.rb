@@ -12,15 +12,15 @@ module Verifactu
         #TODO implementar validación de NIF via API de AEAT
       end
 
-      # Validar si la fecha es válida y no está en el futuro. 
+      # Validar si la fecha es válida y no está en el futuro.
       # @param fecha [String, Date] Fecha a validar
       # @raise [ArgumentError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
       def self.validar_fecha_pasada(fecha)
         fecha_d = self.validar_fecha(fecha)
-        raise ArgumentError, "Fecha no puede estar en el futuro" if fecha_d >= Date.today
+        raise ArgumentError, "Fecha no puede estar en el futuro" if fecha_d > Date.today
       end
 
-      # Validar si la fecha es válida y no está en el pasado. 
+      # Validar si la fecha es válida y no está en el pasado.
       # @param fecha [String, Date] Fecha a validar
       # @raise [ArgumentError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
       def self.validar_fecha_futura(fecha)
@@ -28,12 +28,12 @@ module Verifactu
         raise ArgumentError, "Fecha no puede estar en el pasado" if fecha_d < Date.today
       end
 
-      # Validar si la fecha es válida y es el último día del año. 
+      # Validar si la fecha es válida y es el último día del año.
       # @param fecha [String, Date] Fecha a validar
       # @raise [ArgumentError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
       def self.validar_fecha_fin_de_ano(fecha)
         fecha_d = self.validar_fecha(fecha)
-        
+
         aeat_year = Date.today.year
         valid_years = [aeat_year, aeat_year - 1]
         raise ArgumentError, "El año de la fecha debe ser igual al año actual o al año anterior" unless valid_years.include?(fecha_d.year)

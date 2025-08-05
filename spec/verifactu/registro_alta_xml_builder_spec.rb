@@ -13,7 +13,8 @@ RSpec.describe Verifactu::RegistroAltaXmlBuilder do
       registo_alta_factura = registro_alta_factura_valido(huella)
 
       # Genera el XML
-      Verifactu::RegistroAltaXmlBuilder.build(registo_alta_factura)
+      x = Verifactu::RegistroAltaXmlBuilder.build(registo_alta_factura)
+      p "xml: #{x.root.to_xml}"
 
     end
 
