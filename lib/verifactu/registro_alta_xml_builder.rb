@@ -14,10 +14,15 @@ module Verifactu
     def self.build(registro_alta)
 
       # Create the XML document
-      xml_document = Nokogiri::XML('<sum1:RegistroAlta/>')
+      xml_document = Nokogiri::XML::Document.new
       xml_document.encoding = 'UTF-8'
 
-      agregar_registro_alta(xml_document.root, registro_alta)
+      # Crear nodo raíz con namespace
+      root = Nokogiri::XML::Node.new('sum1:RegistroAlta', xml_document)
+      root.add_namespace_definition('sum1', 'https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/SuministroInformacion.xsd')
+      xml_document.root = root
+
+      agregar_registro_alta(root, registro_alta)
 
       return xml_document
 
