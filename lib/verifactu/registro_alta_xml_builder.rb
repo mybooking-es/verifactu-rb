@@ -142,10 +142,10 @@ module Verifactu
         encadenamiento_fecha_expedicion_element = Nokogiri::XML::Node.new('sum1:FechaExpedicionFactura', xml_document_root)
         encadenamiento_fecha_expedicion_element.content = registro.encadenamiento.fecha_expedicion_factura
         encadenamiento_registro_anterior_element.add_child(encadenamiento_fecha_expedicion_element)
-        encadenamiento_element.add_child(encadenamiento_registro_anterior_element)
         encadenamiento_huella_element = Nokogiri::XML::Node.new('sum1:Huella', xml_document_root)
         encadenamiento_huella_element.content = registro.encadenamiento.huella
-        encadenamiento_element.add_child(encadenamiento_huella_element)
+        encadenamiento_registro_anterior_element.add_child(encadenamiento_huella_element)
+        encadenamiento_element.add_child(encadenamiento_registro_anterior_element)
       end
       xml_document_root.add_child(encadenamiento_element)
 

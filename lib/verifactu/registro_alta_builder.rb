@@ -219,11 +219,11 @@ module Verifactu
       self
     end
 
-    def con_encadenamiento_registro_anterior(id_emisor:, num_serie_factura:, fecha_expedicion:, huella_anterior:)
+    def con_encadenamiento_registro_anterior(id_emisor:, num_serie_factura:, fecha_expedicion_factura:, huella_anterior:)
       @encadenamiento = Verifactu::RegistroFacturacion::Encadenamiento.crea_encadenamiento_registro_anterior(
         id_emisor_factura: id_emisor,
         num_serie_factura: num_serie_factura,
-        fecha_expedicion: fecha_expedicion,
+        fecha_expedicion_factura: fecha_expedicion_factura,
         huella: huella_anterior
       )
       self
