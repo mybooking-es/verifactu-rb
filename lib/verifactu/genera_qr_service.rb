@@ -25,14 +25,14 @@ module Verifactu
     #  png = qr_code.as_png(size: 40, border_modules: 0)
     #
     def execute(environment:, verifactu:, nif:, numserie:, fecha:, importe:)
-      raise ArgumentError, "Environment is required" if environment.nil?
-      raise ArgumentError, "Verifactu flag is required" if verifactu.nil?
-      raise ArgumentError, "NIF is required" if nif.nil? || nif.empty?
-      raise ArgumentError, "Numserie is required" if numserie.nil? || numserie.empty?
-      raise ArgumentError, "Fecha is required" if fecha.nil? || fecha.empty?
-      raise ArgumentError, "Importe is required" if importe.nil? || importe.empty?
+      raise Verifactu::VerifactuError, "Environment is required" if environment.nil?
+      raise Verifactu::VerifactuError, "Verifactu flag is required" if verifactu.nil?
+      raise Verifactu::VerifactuError, "NIF is required" if nif.nil? || nif.empty?
+      raise Verifactu::VerifactuError, "Numserie is required" if numserie.nil? || numserie.empty?
+      raise Verifactu::VerifactuError, "Fecha is required" if fecha.nil? || fecha.empty?
+      raise Verifactu::VerifactuError, "Importe is required" if importe.nil? || importe.empty?
       unless [:pre_prod, :prod].include?(environment)
-        raise ArgumentError, "Invalid environment: #{environment}. Use :pre_prod or :prod."
+        raise Verifactu::VerifactuError, "Invalid environment: #{environment}. Use :pre_prod or :prod."
       end
 
       # Get the URL base

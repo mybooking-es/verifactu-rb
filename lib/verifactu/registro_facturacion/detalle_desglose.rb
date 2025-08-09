@@ -80,7 +80,7 @@ module Verifactu
       def self.create_operacion_exenta(impuesto:, clave_regimen:, calificacion_operacion: , operacion_exenta:,
                                       base_imponible_o_importe_no_sujeto:, base_imponible_a_coste:)
 
-        raise ArgumentError, "DetalleDesglose - se necesita operacion_exenta" if operacion_exenta.nil?
+        raise Verifactu::VerifactuError, "DetalleDesglose - se necesita operacion_exenta" if operacion_exenta.nil?
 
         # Validar operacion exenta
         validar_operacion_exenta(impuesto: impuesto,
@@ -126,34 +126,34 @@ module Verifactu
                     base_imponible_o_importe_no_sujeto:, base_imponible_a_coste:)
 
         # Valida impuesto
-        raise ArgumentError, "DetalleDesglose - impuesto obligatorio" unless impuesto
+        raise Verifactu::VerifactuError, "DetalleDesglose - impuesto obligatorio" unless impuesto
         unless Verifactu::Config::L1.include?(impuesto)
-          raise ArgumentError, "DetalleDesglose - impuesto debe ser una de #{Verifactu::Config::L1.join(', ')}"
+          raise Verifactu::VerifactuError, "DetalleDesglose - impuesto debe ser una de #{Verifactu::Config::L1.join(', ')}"
         end
 
         # Valida clave_regimen
-        raise ArgumentError, "DetalleDesglose - calificacion_operacion obligatoria" if calificacion_operacion.nil?
+        raise Verifactu::VerifactuError, "DetalleDesglose - calificacion_operacion obligatoria" if calificacion_operacion.nil?
         unless calificacion_operacion.nil? || Verifactu::Config::L9.include?(calificacion_operacion)
-          raise ArgumentError, "DetalleDesglose - calificacion_operacion debe ser #{Verifactu::Config::L9.join(', ')}"
+          raise Verifactu::VerifactuError, "DetalleDesglose - calificacion_operacion debe ser #{Verifactu::Config::L9.join(', ')}"
         end
 
         # Valida base_imponible_o_importe_no_sujeto
         unless base_imponible_o_importe_no_sujeto
-          raise ArgumentError, "DetalleDesglose - base_imponible_o_importe_no_sujeto obligatorio"
+          raise Verifactu::VerifactuError, "DetalleDesglose - base_imponible_o_importe_no_sujeto obligatorio"
         end
         unless Verifactu::Helper::Validador.validar_digito(base_imponible_o_importe_no_sujeto, digitos: 12)
-          raise ArgumentError, "DetalleDesglose - base_imponible_o_importe_no_sujeto debe ser un número de maximo "\
+          raise Verifactu::VerifactuError, "DetalleDesglose - base_imponible_o_importe_no_sujeto debe ser un número de maximo "\
                               "12 digitos antes del decimal y 2 decimales"
         end
 
         # Valida base_imponible_a_coste si está presente
         if base_imponible_a_coste
           unless clave_regimen == "06" || impuesto == "02" || impuesto == "05"
-              raise ArgumentError, "DetalleDesglose - BaseImponibleACoste solo puede estar cumplimentado si "\
+              raise Verifactu::VerifactuError, "DetalleDesglose - BaseImponibleACoste solo puede estar cumplimentado si "\
                                   "ClaveRegimen es '06' o Impuesto es '02' (IPSI) o '05' (Otros)"
           end
           unless Verifactu::Helper::Validador.validar_digito(base_imponible_a_coste, digitos: 12)
-            raise ArgumentError, "DetalleDesglose - BaseImponibleACoste debe ser un número de maximo 12 digitos "\
+            raise Verifactu::VerifactuError, "DetalleDesglose - BaseImponibleACoste debe ser un número de maximo 12 digitos "\
                                 "antes del decimal y 2 decimales"
           end
         end
@@ -172,22 +172,22 @@ module Verifactu
 
         # Verifica que el tipo_impositivo es válido
         unless Verifactu::Helper::Validador.validar_digito(tipo_impositivo, digitos: 3)
-          raise ArgumentError, "DetalleDesglose - tipo_impositivo debe ser menor a 999.99"
+          raise Verifactu::VerifactuError, "DetalleDesglose - tipo_impositivo debe ser menor a 999.99"
         end
 
         if impuesto == "01" # IVA
           unless Verifactu::Config::L8A.include?(clave_regimen)
-            raise ArgumentError, "DetalleDesglose - IVA - clave_regimen debe ser #{Verifactu::Config::L8A.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - IVA - clave_regimen debe ser #{Verifactu::Config::L8A.join(', ')}"
           end
           if calificacion_operacion == "S1"
             unless Verifactu::Config::TIPO_IMPOSITIVO.include?(tipo_impositivo)
-              raise ArgumentError, "DetalleDesglose - IVA - S1 - tipo_impositivo debe ser un porcentaje válido "\
+              raise Verifactu::VerifactuError, "DetalleDesglose - IVA - S1 - tipo_impositivo debe ser un porcentaje válido "\
                                   "#{Verifactu::Config::TIPO_IMPOSITIVO.join(', ')}"
             end
             # Validar recarga equivalencia
             if tipo_recargo_equivalencia
               unless Verifactu::Config::TIPO_RECARGO_EQUIVALENCIA.include?(tipo_recargo_equivalencia)
-                raise ArgumentError, "DetalleDesglose - IVA - S1 - tipo_recargo_equivalencia debe ser uno de "\
+                raise Verifactu::VerifactuError, "DetalleDesglose - IVA - S1 - tipo_recargo_equivalencia debe ser uno de "\
                                     "#{Verifactu::Config::TIPO_RECARGO_EQUIVALENCIA.join(', ')}"
               end
               # La validacion de tipo impositivo por fecha se realiza en el validador de factura
@@ -198,21 +198,21 @@ module Verifactu
             end
           elsif calificacion_operacion == "N1" || calificacion_operacion == "N2"
             unless tipo_impositivo.nil?
-              raise ArgumentError, "DetalleDesglose - IVA - N1|N2 - tipo_impositivo debe ser nil"
+              raise Verifactu::VerifactuError, "DetalleDesglose - IVA - N1|N2 - tipo_impositivo debe ser nil"
             end
             unless cuota_repercutida.nil?
-              raise ArgumentError, "DetalleDesglose - IVA - N1|N2 - cuota_repercutida debe ser nil"
+              raise Verifactu::VerifactuError, "DetalleDesglose - IVA - N1|N2 - cuota_repercutida debe ser nil"
             end
             unless tipo_recargo_equivalencia.nil?
-              raise ArgumentError, "DetalleDesglose - IVA - N1|N2 - tipo_recargo_equivalencia debe ser nil"
+              raise Verifactu::VerifactuError, "DetalleDesglose - IVA - N1|N2 - tipo_recargo_equivalencia debe ser nil"
             end
             unless cuota_recargo_equivalencia.nil?
-              raise ArgumentError, "DetalleDesglose - IVA - N1|N2 - cuota_recargo_equivalencia debe ser nil"
+              raise Verifactu::VerifactuError, "DetalleDesglose - IVA - N1|N2 - cuota_recargo_equivalencia debe ser nil"
             end
           end
         elsif impuesto == "03" # IGIC
           unless Verifactu::Config::L8B.include?(clave_regimen)
-            raise ArgumentError, "DetalleDesglose - IGIC - clave_regimen debe ser #{Verifactu::Config::L8B.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - IGIC - clave_regimen debe ser #{Verifactu::Config::L8B.join(', ')}"
           end
         end
 
@@ -221,11 +221,11 @@ module Verifactu
       def self.validar_operacion_exenta(impuesto:, operacion_exenta:)
         if impuesto == "01" # IVA
           unless Verifactu::Config::L10.include?(operacion_exenta)
-            raise ArgumentError, "DetalleDesglose - operacion_exenta debe ser #{Verifactu::Config::L10.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - operacion_exenta debe ser #{Verifactu::Config::L10.join(', ')}"
           end
         elsif impuesto == "03" # IGIC
           unless Verifactu::Config::L10B.include?(operacion_exenta)
-            raise ArgumentError, "DetalleDesglose - operacion_exenta debe ser #{Verifactu::Config::L10B.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - operacion_exenta debe ser #{Verifactu::Config::L10B.join(', ')}"
           end
         end
       end
@@ -235,14 +235,14 @@ module Verifactu
         if calificacion_operacion == "S2"
           # La validacion de tipo_factura se realiza en el validador de factura
           unless tipo_impositivo == "0"
-            raise ArgumentError, "DetalleDesglose - calificacionOperacion S2 - tipo_impositivo debe ser 0"
+            raise Verifactu::VerifactuError, "DetalleDesglose - calificacionOperacion S2 - tipo_impositivo debe ser 0"
           end
           unless cuota_repercutida == "0"
-            raise ArgumentError, "DetalleDesglose - calificacionOperacion S2 - cuota_repercutida debe ser 0"
+            raise Verifactu::VerifactuError, "DetalleDesglose - calificacionOperacion S2 - cuota_repercutida debe ser 0"
           end
         elsif calificacion_operacion == "S1"
           unless tipo_impositivo
-            raise ArgumentError, "DetalleDesglose - calificacionOperacion S1 - tipo_impositivo es obligatorio"
+            raise Verifactu::VerifactuError, "DetalleDesglose - calificacionOperacion S1 - tipo_impositivo es obligatorio"
           end
           # Validacion de cuota_repercutida se ejecuta en el validador de factura
         end
@@ -256,26 +256,26 @@ module Verifactu
         when "02" # Exportación
           if impuesto == "01" || impuesto == "03" # IVA o IGIC
             unless operacion_exenta
-              raise ArgumentError, "DetalleDesglose - claveRegimen 02 - OperacionExenta obligatoria"
+              raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 02 - OperacionExenta obligatoria"
             end
           end
         when "03" # REBU
           if impuesto == "01" || impuesto == "03" # IVA o IGIC
             unless calificacion_operacion.nil? || calificacion_operacion == "S1"
               # Calificacion operacion debe ser S1 o nil
-              raise ArgumentError, "DetalleDesglose - claveRegimen 03 - CalificacionOperacion debe ser S1 o nil"
+              raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 03 - CalificacionOperacion debe ser S1 o nil"
             end
           end
         when "04" #  Operaciones con oro de inversión
           if impuesto == "01" || impuesto == "03" # IVA o IGIC
             unless calificacion_operacion.nil? || calificacion_operacion == "S2"
-              raise ArgumentError, "DetalleDesglose - claveRegimen 04 - CalificacionOperacion debe ser S2 o nil"
+              raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 04 - CalificacionOperacion debe ser S2 o nil"
             end
           end
         when "06" # Grupo de entidades nivel avanzado
           if impuesto == "01" || impuesto == "03" # IVA o IGIC
             if base_imponible_a_coste.nil?
-              raise ArgumentError, "DetalleDesglose - claveRegimen 06 - BaseImponibleACoste no debe ser nil"
+              raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 06 - BaseImponibleACoste no debe ser nil"
             end
             # Validacion de tipoFactura se realiza en el validador de factura
           end
@@ -284,13 +284,13 @@ module Verifactu
             if calificacion_operacion
               invalid_calificaciones = ["S2", "N1", "N2"]
               if invalid_calificaciones.include?(calificacion_operacion)
-                raise ArgumentError, "DetalleDesglose - claveRegimen 07 - CalificacionOperacion no puede ser "\
+                raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 07 - CalificacionOperacion no puede ser "\
                                     "#{invalid_calificaciones.join(', ')}"
               end
             elsif operacion_exenta
               invalid_operaciones_exentas = ["E2", "E3", "E4", "E5"]
               if invalid_operaciones_exentas.include?(operacion_exenta)
-                raise ArgumentError, "DetalleDesglose - claveRegimen 07 - OperacionExenta no puede ser "\
+                raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 07 - OperacionExenta no puede ser "\
                                     "#{invalid_operaciones_exentas.join(', ')}"
               end
             end
@@ -299,7 +299,7 @@ module Verifactu
           if impuesto == "01" || impuesto == "03" # IVA o IGIC
             valid_calificaciones = ["N2"]
             unless valid_calificaciones.include?(calificacion_operacion)
-              raise ArgumentError, "DetalleDesglose - claveRegimen 08 - CalificacionOperacion debe ser "\
+              raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 08 - CalificacionOperacion debe ser "\
                                   "#{valid_calificaciones.join(', ')}"
             end
           end
@@ -307,7 +307,7 @@ module Verifactu
           if impuesto == "01" || impuesto == "03" # IVA o IGIC
             valid_calificaciones = ["N1"]
             unless valid_calificaciones.include?(calificacion_operacion)
-              raise ArgumentError, "DetalleDesglose - claveRegimen 10 - CalificacionOperacion debe ser "\
+              raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 10 - CalificacionOperacion debe ser "\
                                   "#{valid_calificaciones.join(', ')}"
             end
             # Validacion de tipoFactura se realiza en el validador de factura
@@ -317,7 +317,7 @@ module Verifactu
           if impuesto == "01" # IVA
             valid_tipo_impositivo = ["21"]
             unless valid_tipo_impositivo.include?(tipo_impositivo)
-              raise ArgumentError, "DetalleDesglose - claveRegimen 11 - IVA - TipoImpositivo debe ser "\
+              raise Verifactu::VerifactuError, "DetalleDesglose - claveRegimen 11 - IVA - TipoImpositivo debe ser "\
                                   "#{valid_tipo_impositivo.join(', ')}"
             end
           end
@@ -334,37 +334,37 @@ module Verifactu
         when "21"
           valid_impuestos = ["5.2", "1.75"]
           unless valid_impuestos.include?(tipo_recargo_equivalencia)
-            raise ArgumentError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
           end
         when "10"
           valid_impuestos = ["1.4"]
           unless valid_impuestos.include?(tipo_recargo_equivalencia)
-            raise ArgumentError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
           end
         when "7.5"
           valid_impuestos = ["1"]
           unless valid_impuestos.include?(tipo_recargo_equivalencia)
-            raise ArgumentError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
           end
         when "5"
           valid_impuestos = ["0.5", "0.62"]
           unless valid_impuestos.include?(tipo_recargo_equivalencia)
-            raise ArgumentError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
           end
         when "4"
           valid_impuestos = ["0.5"]
           unless valid_impuestos.include?(tipo_recargo_equivalencia)
-            raise ArgumentError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
           end
         when "2"
           valid_impuestos = ["0.26"]
           unless valid_impuestos.include?(tipo_recargo_equivalencia)
-            raise ArgumentError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
           end
         when "0"
           valid_impuestos = Verifactu::Config::TIPO_RECARGO_EQUIVALENCIA
           unless valid_impuestos.include?(tipo_recargo_equivalencia)
-            raise ArgumentError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
+            raise Verifactu::VerifactuError, "DetalleDesglose - recargo equivalencia debe ser #{valid_impuestos.join(', ')}"
           end
         end
       end

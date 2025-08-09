@@ -10,8 +10,8 @@ module Verifactu
     #
     def self.build(cabecera, registro_alta_xml)
 
-      raise ArgumentError, "cabecera must be an instance of Cabecera" unless cabecera.is_a?(Cabecera)
-      raise ArgumentError, "registro_alta_xml must be an instance of Nokogiri::XML::Document" unless registro_alta_xml.is_a?(Nokogiri::XML::Document)
+      raise Verifactu::VerifactuError, "cabecera must be an instance of Cabecera" unless cabecera.is_a?(Cabecera)
+      raise Verifactu::VerifactuError, "registro_alta_xml must be an instance of Nokogiri::XML::Document" unless registro_alta_xml.is_a?(Nokogiri::XML::Document)
 
       # Create the XML document
       xml_document = Nokogiri::XML('<sum:RegFactuSistemaFacturacion/>')
@@ -45,7 +45,7 @@ module Verifactu
     #
     def self.agregar_registro_alta(xml_document, registro_alta_xml)
 
-      raise ArgumentError, "registro_alta_xml must be an instance of Nokogiri::XML::Document" unless registro_alta_xml.is_a?(Nokogiri::XML::Document)
+      raise Verifactu::VerifactuError, "registro_alta_xml must be an instance of Nokogiri::XML::Document" unless registro_alta_xml.is_a?(Nokogiri::XML::Document)
       @registro_factura_element.add_child(registro_alta_xml.root)
       return self
 

@@ -2,7 +2,7 @@ require 'savon'
 require 'nokogiri'
 require 'rqrcode'
 require 'erb'
-
+require_relative "verifactu/verifactu_error"
 require_relative "verifactu/config/verifactu_config"
 require_relative "verifactu/helpers/validador"
 require_relative "verifactu/helpers/generar_huella_registro_alta"

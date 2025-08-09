@@ -15,17 +15,17 @@ module Verifactu
 
       # Validación del entorno
       unless [:pre_prod, :prod].include?(environment)
-        raise ArgumentError, "Invalid environment: #{environment}. Use :pre_prod or :prod."
+        raise Verifactu::VerifactuError, "Invalid environment: #{environment}. Use :pre_prod or :prod."
       end
 
       # Validación del XML
       if reg_factu_xml.nil? || reg_factu_xml.empty?
-        raise ArgumentError, 'XML del registro de facturación no puede estar vacío'
+        raise Verifactu::VerifactuError, 'XML del registro de facturación no puede estar vacío'
       end
 
       validate_schema = Verifactu::Helpers::ValidaSuministroXSD.execute(reg_factu_xml)
       unless validate_schema[:valid]
-        raise ArgumentError, "El XML del registro de facturación no es válido según el esquema XSD: "\
+        raise Verifactu::VerifactuError, "El XML del registro de facturación no es válido según el esquema XSD: "\
                              "#{validate_schema[:error_type]} - #{validate_schema[:errors].join(', ')}"
       end
 
@@ -68,7 +68,7 @@ module Verifactu
     #
     # @return [Hash] Resultado de la petición con claves :result, :body, :fault, :http_code, :error, :backtrace
     #
-    # @raise [ArgumentError] Si el XML está vacío o si el entorno no es válido
+    # @raise [Verifactu::VerifactuError] Si el XML está vacío o si el entorno no es válido
     #
     # @raise [Savon::SOAPFault] Si hay un error en la respuesta SOAP
     # @raise [Savon::HTTPError] Si hay un error HTTP al hacer la petición
@@ -123,7 +123,7 @@ module Verifactu
     # @param cert_password [String, nil] Contraseña del certificado (opcional)
     # @return [Savon::Client] Cliente Savon configurado
     #
-    # @raise [ArgumentError] Si el certificado o la clave están vacíos
+    # @raise [Verifactu::VerifactuError] Si el certificado o la clave están vacíos
     #
     # @example
     #   client = build_savon_client(
