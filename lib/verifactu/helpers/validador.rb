@@ -57,6 +57,16 @@ module Verifactu
         fecha_d
       end
 
+      # Validar si la fecha es válida (versión que retorna true/false)
+      # @param fecha [String, Date] Fecha a validar
+      # @return [Boolean] true si la fecha es válida, false en caso contrario
+      def self.fecha_valida?(fecha)
+        validar_fecha(fecha)
+        true
+      rescue Verifactu::VerifactuError
+        false
+      end
+
       # Validar si el digito es un número válido
       # @note Esta funcion se ha extraido para facilitar el mantenimiento y reutilización
       # @note De esta forma, se puede cambiar globalmente el separador de decimales o el formato de validación sin afectar a todas las clases que lo utilizan
