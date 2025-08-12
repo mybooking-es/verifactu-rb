@@ -2,7 +2,9 @@ module Verifactu
   class EnvioVerifactuService
 
     URL_PRE_PROD = 'https://prewww1.aeat.es/wlpl/TIKE-CONT/ws/SistemaFacturacion/VerifactuSOAP'
+    URL_PRE_PROD_SELLO = 'https://prewww10.aeat.es/wlpl/TIKE-CONT/ws/SistemaFacturacion/VerifactuSOAP'
     URL_PROD = 'https://www1.agenciatributaria.gob.es/wlpl/TIKE-CONT/ws/SistemaFacturacion/VerifactuSOAP'
+    URL_PROD_SELLO = 'https://www10.agenciatributaria.gob.es/wlpl/TIKE-CONT/ws/SistemaFacturacion/VerifactuSOAP'
 
     # Envia un registro de facturación a Verifactu
     # @param environment [Symbol] :pre_prod o :prod
@@ -11,7 +13,7 @@ module Verifactu
     # @param client_key [String] Clave privada del cliente en formato PEM
     # @param cert_password [String, nil] Contraseña del certificado (opcional)
     #
-    def send_verifactu(environment:, reg_factu_xml:, client_cert:, client_key:, cert_password: nil)
+    def send_verifactu(environment:, reg_factu_xml:, certificado_sello: , client_cert:, client_key:, cert_password: nil)
 
       # Validación del entorno
       unless [:pre_prod, :prod].include?(environment)
@@ -30,9 +32,17 @@ module Verifactu
       end
 
       if (environment == :pre_prod)
-        url = URL_PRE_PROD
+        if certificado_sello
+          url = URL_PRE_PROD_SELLO
+        else
+          url = URL_PRE_PROD
+        end
       else
-        url = URL_PROD
+        if certificado_sello
+          url = URL_PROD_SELLO
+        else
+          url = URL_PROD
+        end
       end
 
       # Construcción del request SOAP
@@ -136,7 +146,7 @@ module Verifactu
 
       cert = OpenSSL::X509::Certificate.new(client_cert)
       key = if cert_password && !cert_password.empty?
-              OpenSSL::PKey::RSA.new(client_key, cert_password)
+              OpenSSL::PKey.read(client_key, cert_password)
             else
               OpenSSL::PKey::RSA.new(client_key)
             end
