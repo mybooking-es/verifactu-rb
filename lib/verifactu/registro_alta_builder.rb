@@ -100,12 +100,12 @@ module Verifactu
     end
 
     def agregar_factura_rectificada(id_emisor, num_serie, fecha_expedicion)
-      @factura_rectificada << Verifactu::RegistroFacturacion::IDFactura.new(id_emisor: id_emisor, num_serie: num_serie, fecha_expedicion: fecha_expedicion)
+      @factura_rectificada << Verifactu::RegistroFacturacion::IDFactura.new(id_emisor_factura: id_emisor, num_serie_factura: num_serie, fecha_expedicion_factura: fecha_expedicion)
       self
     end
 
     def agregar_factura_substituida(id_emisor, num_serie, fecha_expedicion)
-      @factura_substituida << Verifactu::RegistroFacturacion::IDFactura.new(id_emisor: id_emisor, num_serie: num_serie, fecha_expedicion: fecha_expedicion)
+      @factura_substituida << Verifactu::RegistroFacturacion::IDFactura.new(id_emisor_factura: id_emisor, num_serie_factura: num_serie, fecha_expedicion_factura: fecha_expedicion)
       self
     end
 
