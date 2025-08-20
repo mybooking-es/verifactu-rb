@@ -2,7 +2,7 @@ module Verifactu
   #
   # This class is responsible for building the XML representation of a RegistroAlta.
   #
-  class RegistroAltaXmlBuilder
+  class FiltroConsultaXMLBuilder
 
     #
     # It creates an XML representation of the RegistroAlta.
@@ -38,7 +38,7 @@ module Verifactu
     #
     def self.agregar_filtro_consulta(xml_document_root, filtro_consulta)
 
-      
+
       # Agrega Periodo imputacion
       periodo_imputacion_element = Nokogiri::XML::Node.new('sum1:PeriodoImputacion', xml_document_root)
 
@@ -49,7 +49,7 @@ module Verifactu
       periodo_periodo_imputacion_element = Nokogiri::XML::Node.new('sum1:Periodo', xml_document_root)
       periodo_periodo_imputacion_element.content = filtro_consulta.periodo_imputacion.periodo
       periodo_imputacion_element.add_child(periodo_periodo_imputacion_element)
-      
+
       xml_document_root.add_child(periodo_imputacion_element)
 
 
@@ -61,7 +61,7 @@ module Verifactu
       end
 
       # Agregar Contraparte
-      if registro.contraparte
+      if filtro_consulta.contraparte
         contraparte_element = Nokogiri::XML::Node.new('sum1:Contraparte', xml_document_root)
         contraparte_nombre_razon_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document_root)
         contraparte_nombre_razon_element.content = filtro_consulta.contraparte.nombre_razon
@@ -75,7 +75,7 @@ module Verifactu
       # Agregar FechaExpedicionFactura
       if filtro_consulta.fecha_expedicion_factura
         fecha_expedicion_factura_element = Nokogiri::XML::Node.new('sum1:FechaExpedicionFactura', xml_document_root)
-        
+
         if filtro_consulta.fecha_expedicion_factura.fecha_expedicion
           fecha_expedicion_factura_element.content = filtro_consulta.fecha_expedicion_factura.fecha_expedicion
         else
@@ -91,7 +91,7 @@ module Verifactu
 
           fecha_expedicion_factura_element.add_child(rango_fecha_expedicion_factura_element)
         end
-        
+
         xml_document_root.add_child(fecha_expedicion_factura_element)
       end
 
@@ -131,7 +131,7 @@ module Verifactu
       # Agregar ClavePaginacion
       if filtro_consulta.clave_paginacion
         clave_paginacion_element = Nokogiri::XML::Node.new('sum1:ClavePaginacion', xml_document_root)
-        
+
         id_emisor_factura_clave_paginacion_element = Nokogiri::XML::Node.new('sum1:IdEmisorFactura', xml_document_root)
         id_emisor_factura_clave_paginacion_element.content = filtro_consulta.clave_paginacion.id_emisor_factura
         clave_paginacion_element.add_child(id_emisor_factura_clave_paginacion_element)

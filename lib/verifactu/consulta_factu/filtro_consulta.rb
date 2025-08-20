@@ -14,8 +14,8 @@ module Verifactu
         raise Verifactu::VerifactuError, "Periodo de imputación is required" if periodo_imputacion.nil?
 
         raise Verifactu::VerifactuError, "Periodo de imputación must be an instance of PeriodoImputacion" unless periodo_imputacion.is_a?(PeriodoImputacion)
-        raise Verifactu::VerifactuError, "Contraparte must be an instance of PersonaFisicaJuridica" if contraparte && !contraparte.is_a?(PersonaFisicaJuridica)
-        raise Verifactu::VerifactuError, "Fecha de expedición de factura must be an instance of FechaExpedicionFactura" if fecha_expedicion_factura && !fecha_expedicion_factura.is_a?(FechaExpedicionFactura)
+        raise Verifactu::VerifactuError, "Contraparte must be an instance of PersonaFisicaJuridica" if contraparte && !contraparte.is_a?(Verifactu::RegistroFacturacion::PersonaFisicaJuridica)
+        raise Verifactu::VerifactuError, "Fecha de expedición de factura must be an instance of FechaExpedicionFactura (#{fecha_expedicion_factura})" if fecha_expedicion_factura && !fecha_expedicion_factura.is_a?(Verifactu::ConsultaFactu::FechaExpedicionFactura)
         raise Verifactu::VerifactuError, "Sistema informático must be an instance of SistemaInformatico" if sistema_informatico && !sistema_informatico.is_a?(SistemaInformatico)
         raise Verifactu::VerifactuError, "Clave de paginación must be an instance of ClavePaginacion" if clave_paginacion && !clave_paginacion.is_a?(ClavePaginacion)
 

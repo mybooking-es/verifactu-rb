@@ -21,11 +21,21 @@ require_relative "verifactu/registro_facturacion/remision_requerimiento"
 require_relative "verifactu/registro_facturacion/remision_voluntaria"
 require_relative "verifactu/registro_facturacion/sistema_informatico"
 
+require_relative "verifactu/consulta_factu/clave_paginacion"
+require_relative "verifactu/consulta_factu/consulta_factu"
+require_relative "verifactu/consulta_factu/fecha_expedicion_factura"
+require_relative "verifactu/consulta_factu/filtro_consulta"
+require_relative "verifactu/consulta_factu/periodo_imputacion"
+
 require_relative "verifactu/cabecera"
+require_relative "verifactu/consulta_factu_xml_builder"
 require_relative "verifactu/registro_alta_builder"
 require_relative "verifactu/registro_alta_xml_builder"
 require_relative "verifactu/reg_factu_sistema_facturacion_xml_builder"
 require_relative "verifactu/envio_verifactu_service"
 require_relative "verifactu/genera_qr_service"
+require_relative "verifactu/filtro_consulta_builder"
+require_relative "verifactu/filtro_consulta_xml_builder"
+
 
 require_relative "verifactu/version"

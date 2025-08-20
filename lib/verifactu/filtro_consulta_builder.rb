@@ -41,8 +41,7 @@ module Verifactu
     end
 
     def con_periodo_imputacion(ejercicio, periodo)
-      @ejercicio = ejercicio
-      @periodo = periodo
+      @periodo_imputacion = Verifactu::ConsultaFactu::PeriodoImputacion.new(ejercicio: ejercicio, periodo: periodo)
       self
     end
 
@@ -52,23 +51,23 @@ module Verifactu
     end
 
     def con_contraparte_nif(nombre_razon, nif)
-      @contraparte = new RegistroFacturacion::PersonaFisicaJuridica.create_from_nif(nombre_razon: nombre_razon, nif: nif)
+      @contraparte = Verifactu::RegistroFacturacion::PersonaFisicaJuridica.create_from_nif(nombre_razon: nombre_razon, nif: nif)
       self
     end
 
     def con_contraparte_id_otro(nombre_razon, codigo_pais, id_type, id)
-      id_otro = new RegistroFacturacion::IdOtro(codigo_pais: codigo_pais, id_type: id_type, id: id)
-      @contraparte = new RegistroFacturacion::PersonaFisicaJuridica.create_from_id_otro(nombre_razon: nombre_razon, id_otro: id_otro)
+      id_otro = Verifactu::RegistroFacturacion::IdOtro(codigo_pais: codigo_pais, id_type: id_type, id: id)
+      @contraparte = Verifactu::RegistroFacturacion::PersonaFisicaJuridica.create_from_id_otro(nombre_razon: nombre_razon, id_otro: id_otro)
       self
     end
 
     def con_fecha_expedicion_concreta(fecha)
-      @fecha_expedicion_concreta = new ConsultaFactu::FechaExpedicionFactura.fecha_expedicion_concreta(fecha_expedicion: fecha)
+      @fecha_expedicion = Verifactu::ConsultaFactu::FechaExpedicionFactura.fecha_expedicion_concreta(fecha)
       self
     end
 
     def con_fecha_expedicion_rango(desde, hasta)
-      @fecha_expedicion_rango = new ConsultaFactu::FechaExpedicionFactura.fecha_expedicion_rango(desde: desde, hasta: hasta)
+      @fecha_expedicion = Verifactu::ConsultaFactu::FechaExpedicionFactura.fecha_expedicion_rango(desde: desde, hasta: hasta)
       self
     end
 
@@ -85,17 +84,16 @@ module Verifactu
     end
 
     def con_clave_paginacion(id_emisor_factura, num_serie_factura, fecha_expedicion_factura)
-      @clave_paginacion = ConsultaFactu::ClavePaginacion.new(id_emisor_factura: id_emisor_factura, num_serie_factura: num_serie_factura, fecha_expedicion_factura: fecha_expedicion_factura)
+      @clave_paginacion = Verifactu::ConsultaFactu::ClavePaginacion.new(id_emisor_factura: id_emisor_factura, num_serie_factura: num_serie_factura, fecha_expedicion_factura: fecha_expedicion_factura)
       self
     end
 
     def build()
-      ConsultaFactu::FiltroConsulta.new(
+      Verifactu::ConsultaFactu::FiltroConsulta.new(
         periodo_imputacion: @periodo_imputacion,
         num_serie_factura: @num_serie_factura,
         contraparte: @contraparte,
-        fecha_expedicion_concreta: @fecha_expedicion_concreta,
-        fecha_expedicion_rango: @fecha_expedicion_rango,
+        fecha_expedicion_factura: @fecha_expedicion,
         sistema_informatico: @sistema_informatico,
         ref_externa: @ref_externa,
         clave_paginacion: @clave_paginacion

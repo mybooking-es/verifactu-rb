@@ -60,4 +60,20 @@ module VerifactuHelpers
       .con_huella(huella)
       .build
   end
+
+  def filtro_consulta_simple_valida
+    Verifactu::FiltroConsultaBuilder.new
+    .con_periodo_imputacion("2025", "02")
+    .build
+  end
+
+  def filtro_consulta_compleja_valida
+    Verifactu::FiltroConsultaBuilder.new
+    .con_periodo_imputacion("2025", "02")
+    .con_num_serie_factura("A12")
+    .con_contraparte_nif('Brad Stark', '55555555K')
+    .con_fecha_expedicion_concreta('20-02-2025')
+    .con_ref_externa('Mybooking-doralauto-menorca')
+    .build
+  end
 end

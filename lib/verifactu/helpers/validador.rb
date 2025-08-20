@@ -51,8 +51,8 @@ module Verifactu
           rescue Verifactu::VerifactuError
             raise Verifactu::VerifactuError, "Formato de fecha inválido. Debe ser 'dd-mm-aaaa'."
           end
-        elsif !fecha.is_a?(Date)
-          raise Verifactu::VerifactuError, "Fecha debe ser un objeto Date o una cadena de fecha válida"
+        else !fecha.is_a?(Date)
+          raise Verifactu::VerifactuError, "Fecha debe ser una cadena de fecha"
         end
         fecha_d
       end
