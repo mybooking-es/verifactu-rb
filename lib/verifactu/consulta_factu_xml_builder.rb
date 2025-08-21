@@ -10,7 +10,7 @@ module Verifactu
     #
     def self.build(cabecera, filtro_consulta_xml, nombre_razon_emisor = false, sistema_informatico = false)
 
-      raise Verifactu::VerifactuError, "cabecera must be an instance of Cabecera" unless cabecera.is_a?(Cabecera)
+      raise Verifactu::VerifactuError, "cabecera must be an instance of CabeceraConsulta" unless cabecera.is_a?(Verifactu::ConsultaFactu::CabeceraConsulta)
       raise Verifactu::VerifactuError, "filtro_consulta_xml must be an instance of Nokogiri::XML::Document" unless filtro_consulta_xml.is_a?(Nokogiri::XML::Document)
 
       # Create the XML document
@@ -60,25 +60,38 @@ module Verifactu
 
       cabecera_element = Nokogiri::XML::Node.new('sum:Cabecera', xml_document)
 
-      # Obligado emision
-      obligado_emision_element = Nokogiri::XML::Node.new('sum1:ObligadoEmision', xml_document)
-      obligado_emision_razon_social_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document)
-      obligado_emision_razon_social_element.content = cabecera.obligado_emision.nombre_razon
-      obligado_emision_element.add_child(obligado_emision_razon_social_element)
-      obligado_emision_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document)
-      obligado_emision_nif_element.content = cabecera.obligado_emision.nif
-      obligado_emision_element.add_child(obligado_emision_nif_element)
-      cabecera_element.add_child(obligado_emision_element)
+      # id_version
+      id_version_element = Nokogiri::XML::Node.new('sum:IDVersion', xml_document)
+      id_version.content = cabecera.id_version
+      cabecera_element.add_child(id_version_element)
 
-      if cabecera.representante
-        # Representante
-        obligado_representante_element = Nokogiri::XML::Node.new('sum1:Representante', xml_document)
-        obligado_representante_razon_social_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document)
-        obligado_representante_razon_social_element.content = cabecera.representante.nombre_razon
-        obligado_representante_element.add_child(obligado_representante_razon_social_element)
-        obligado_representante_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document)
-        obligado_representante_nif_element.content = cabecera.representante.nif
-        obligado_representante_element.add_child(obligado_representante_nif_element)
+
+
+      # Obligado emision
+      if cabecera.obligado_emision
+        obligado_emision_element = Nokogiri::XML::Node.new('sum1:ObligadoEmision', xml_document)
+        obligado_emision_razon_social_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document)
+        obligado_emision_razon_social_element.content = cabecera.obligado_emision.nombre_razon
+        obligado_emision_element.add_child(obligado_emision_razon_social_element)
+        obligado_emision_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document)
+        obligado_emision_nif_element.content = cabecera.obligado_emision.nif
+        obligado_emision_element.add_child(obligado_emision_nif_element)
+        cabecera_element.add_child(obligado_emision_element)
+      else #Destinatario
+        destinatario_element = Nokogiri::XML::Node.new('sum1:Destinatario', xml_document)
+        destinatario_razon_social_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document)
+        destinatario_razon_social_element.content = cabecera.destinatario.nombre_razon
+        destinatario_element.add_child(destinatario_razon_social_element)
+        destinatario_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document)
+        destinatario_nif_element.content = cabecera.destinatario.nif
+        destinatario_element.add_child(destinatario_nif_element)
+        cabecera_element.add_child(destinatario_element)
+      end
+
+      if cabecera.indicador_representante
+        indicador_representante_element = Nokogiri::XML::new('sum1:IndicadorRepresentante', xml_document)
+        indicador_representante_element.content = cabecera.indicador_representante
+        cabecera_element.add_child(indicador_representante_element)
       end
 
       # Añade la cabecera al documento XML
