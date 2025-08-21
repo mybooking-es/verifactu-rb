@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Verifactu::RegistroAltaBuilder do
+RSpec.describe Verifactu::FiltroConsultaBuilder do
   describe '.build_standa' do
 
     it 'crea un filtro consulta simple' do

@@ -76,4 +76,12 @@ module VerifactuHelpers
     .con_ref_externa('Mybooking-doralauto-menorca')
     .build
   end
+
+  def cabecera_consulta_valida
+    Verifactu::ConsultaFactu::CabeceraConsulta.cabecera_obligado_emisor(
+      obligado_emision: Verifactu::RegistroFacturacion::PersonaFisicaJuridica.create_from_nif(
+        nombre_razon: 'Mi empresa SL',
+        nif: 'B12345674'
+      ))
+  end
 end

@@ -1,5 +1,5 @@
 module Verifactu
-  class RegFactuSistemaFacturacionXmlBuilder
+  class ConsultaFactuXmlBuilder
     #
     # It creates an XML representation of the RegFactuSistemaFacturacion.
     # xml.root.to_xml
@@ -8,7 +8,10 @@ module Verifactu
     # @param filtro_consulta_xml [Nokigiri::XML::Document] The XML document containing the RegistroAlta data.
     # @return [Nokogiri::XML::Document] The XML document representing the RegFactuSistemaFacturacion.
     #
-    def self.build(cabecera, filtro_consulta_xml, nombre_razon_emisor = false, sistema_informatico = false)
+    def self.build(cabecera:, filtro_consulta_xml:, nombre_razon_emisor: false, sistema_informatico: false)
+
+      raise Verifactu::VerifactuError, "cabecera is required" if cabecera.nil?
+      raise Verifactu::VerifactuError, "filtro_consulta_xml is required" if filtro_consulta_xml.nil?
 
       raise Verifactu::VerifactuError, "cabecera must be an instance of CabeceraConsulta" unless cabecera.is_a?(Verifactu::ConsultaFactu::CabeceraConsulta)
       raise Verifactu::VerifactuError, "filtro_consulta_xml must be an instance of Nokogiri::XML::Document" unless filtro_consulta_xml.is_a?(Nokogiri::XML::Document)
@@ -62,7 +65,7 @@ module Verifactu
 
       # id_version
       id_version_element = Nokogiri::XML::Node.new('sum:IDVersion', xml_document)
-      id_version.content = cabecera.id_version
+      id_version_element.content = cabecera.id_version
       cabecera_element.add_child(id_version_element)
 
 
@@ -105,14 +108,14 @@ module Verifactu
       datos_adicionales_respuesta_element = Nokogiri::XML::Node.new('sum:DatosAdicionalesRespuesta', xml_document)
       # Agregar NombreRazonEmisor
       if nombre_razon_emisor
-        nombre_razon_emisor_element = Nokogiri::XML::Node.new('sum1:NombreRazonEmisor', xml_document)
+        nombre_razon_emisor_element = Nokogiri::XML::Node.new('sum1:MostrarNombreRazonEmisor', xml_document)
         nombre_razon_emisor_element.content = "S"
         datos_adicionales_respuesta_element.add_child(nombre_razon_emisor_element)
       end
 
       # Agregar SistemaInformatico
       if sistema_informatico
-        sistema_informatico_element = Nokogiri::XML::Node.new('sum1:SistemaInformatico', xml_document)
+        sistema_informatico_element = Nokogiri::XML::Node.new('sum1:MostrarSistemaInformatico', xml_document)
         sistema_informatico_element.content = "S"
         datos_adicionales_respuesta_element.add_child(sistema_informatico_element)
       end

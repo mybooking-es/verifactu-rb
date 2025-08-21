@@ -2,7 +2,7 @@ module Verifactu
   #
   # This class is responsible for building the XML representation of a RegistroAlta.
   #
-  class FiltroConsultaXMLBuilder
+  class FiltroConsultaXmlBuilder
 
     #
     # It creates an XML representation of the RegistroAlta.

@@ -8,6 +8,7 @@ require_relative "verifactu/helpers/validador"
 require_relative "verifactu/helpers/generar_huella_registro_alta"
 require_relative "verifactu/helpers/xsd_loader"
 require_relative "verifactu/helpers/valida_suministro_xsd"
+require_relative "verifactu/helpers/valida_consulta_xsd"
 
 require_relative "verifactu/registro_facturacion/registro_alta"
 require_relative "verifactu/registro_facturacion/registro_anulacion"
@@ -26,6 +27,7 @@ require_relative "verifactu/consulta_factu/consulta_factu"
 require_relative "verifactu/consulta_factu/fecha_expedicion_factura"
 require_relative "verifactu/consulta_factu/filtro_consulta"
 require_relative "verifactu/consulta_factu/periodo_imputacion"
+require_relative "verifactu/consulta_factu/cabecera_consulta"
 
 require_relative "verifactu/cabecera"
 require_relative "verifactu/consulta_factu_xml_builder"
@@ -36,6 +38,8 @@ require_relative "verifactu/envio_verifactu_service"
 require_relative "verifactu/genera_qr_service"
 require_relative "verifactu/filtro_consulta_builder"
 require_relative "verifactu/filtro_consulta_xml_builder"
+require_relative "verifactu/consulta_factu_xml_builder"
+
 
 
 require_relative "verifactu/version"
