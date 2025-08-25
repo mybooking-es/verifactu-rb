@@ -8,10 +8,10 @@ module Verifactu
     # It creates an XML representation of the RegistroAlta.
     # (xml.root.to_xml)
     #
-    # @param registro_alta [Verifactu::RegistroAlta] The RegistroAlta object to convert to XML.
-    # @return [Nokogiri::XML::Document] The XML document representing the RegistroAlta.
+    # @param filtro [Verifactu::ConsultaFactu::FiltroConsulta] The FiltroConsulta object to convert to XML.
+    # @return [Nokogiri::XML::Document] The XML document representing the FiltroConsulta.
     #
-    def self.build(registro_alta)
+    def self.build(filtro_consulta)
 
       # Create the XML document
       xml_document = Nokogiri::XML::Document.new
@@ -22,7 +22,7 @@ module Verifactu
       root.add_namespace_definition('sum1', 'https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/SuministroInformacion.xsd')
       xml_document.root = root
 
-      agregar_filtro_consulta(root, registro_alta)
+      agregar_filtro_consulta(root, filtro_consulta)
 
       return xml_document
 
@@ -51,7 +51,6 @@ module Verifactu
       periodo_imputacion_element.add_child(periodo_periodo_imputacion_element)
 
       xml_document_root.add_child(periodo_imputacion_element)
-
 
       # Agrega NumSerieFactura
       if filtro_consulta.num_serie_factura

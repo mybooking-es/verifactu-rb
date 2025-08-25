@@ -32,7 +32,7 @@
 				</annotation>
 			</element>
 			<element name="FechaExpedicionFactura" type="sf:FechaExpedicionConsultaType" minOccurs="0"/>
-			<element name="SistemaInformatico" type="sf:SistemaInformaticoConsultaType" minOccurs="0"/>
+			<element name="SistemaInformatico" type="sf:SistemaInformaticoType" minOccurs="0"/>
 			<element name="RefExterna" type="sf:TextMax70Type" minOccurs="0"/>
 			<element name="ClavePaginacion" type="sf:IDFacturaExpedidaBCType" minOccurs="0"/>
 		</sequence>
