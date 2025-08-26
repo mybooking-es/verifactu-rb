@@ -8,11 +8,11 @@ RSpec.describe Verifactu::ConsultaFactuXmlBuilder do
 
       # Crea la cabecera
       cabecera = cabecera_consulta_valida
-      filtro_consulta = filtro_consulta_simple_valida
+      filtro_consulta = filtro_consulta_compleja_valida
 
 
       # Genera el XML de la consulta
-      filtro_consulta_xml = Verifactu::FiltroConsultaXmlBuilder.build(filtro_consulta_simple_valida)
+      filtro_consulta_xml = Verifactu::FiltroConsultaXmlBuilder.build(filtro_consulta)
 
       # Genera el XML
       xml = Verifactu::ConsultaFactuXmlBuilder.build(cabecera: cabecera, filtro_consulta_xml: filtro_consulta_xml)

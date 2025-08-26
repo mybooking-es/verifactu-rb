@@ -17,12 +17,12 @@ module Verifactu
       raise Verifactu::VerifactuError, "filtro_consulta_xml must be an instance of Nokogiri::XML::Document" unless filtro_consulta_xml.is_a?(Nokogiri::XML::Document)
 
       # Create the XML document
-      xml_document = Nokogiri::XML('<sum:RegFactuSistemaFacturacion/>')
+      xml_document = Nokogiri::XML('<con:ConsultaFactuSistemaFacturacion/>')
 
       # Set the namespaces
       root = xml_document.root
-      root.add_namespace_definition('sum', 'https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/ConsultaLR.xsd')
-      root.add_namespace_definition('sum1', 'https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/SuministroInformacion.xsd')
+      root.add_namespace_definition('con', 'https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/ConsultaLR.xsd')
+      root.add_namespace_definition('sum', 'https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/SuministroInformacion.xsd')
       root.add_namespace_definition('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
       root['xsi:schemaLocation'] = 'https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/ConsultaLR.xsd ConsultaLR.xsd'
 
@@ -31,9 +31,6 @@ module Verifactu
       # Agrega la cabecera
       agregar_cabecera(xml_document, cabecera)
 
-      # Crea el nodo RegistroFactura que contendrá los registros de factura alta
-      @registro_factura_element = Nokogiri::XML::Node.new('sum:ConsultaFactuSistemaFacturacion', xml_document)
-      xml_document.root.add_child(@registro_factura_element)
 
       # Agrega el registro de factura
       agregar_filtro_consulta(xml_document, filtro_consulta_xml)
@@ -49,7 +46,7 @@ module Verifactu
     def self.agregar_filtro_consulta(xml_document, filtro_consulta_xml)
 
       raise Verifactu::VerifactuError, "filtro_consulta_xml must be an instance of Nokogiri::XML::Document" unless filtro_consulta_xml.is_a?(Nokogiri::XML::Document)
-      @registro_factura_element.add_child(filtro_consulta_xml.root)
+      xml_document.root.add_child(filtro_consulta_xml.root)
       return self
 
     end
@@ -61,7 +58,7 @@ module Verifactu
     #
     def self.agregar_cabecera(xml_document, cabecera)
 
-      cabecera_element = Nokogiri::XML::Node.new('sum:Cabecera', xml_document)
+      cabecera_element = Nokogiri::XML::Node.new('con:Cabecera', xml_document)
 
       # id_version
       id_version_element = Nokogiri::XML::Node.new('sum:IDVersion', xml_document)
@@ -72,27 +69,27 @@ module Verifactu
 
       # Obligado emision
       if cabecera.obligado_emision
-        obligado_emision_element = Nokogiri::XML::Node.new('sum1:ObligadoEmision', xml_document)
-        obligado_emision_razon_social_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document)
+        obligado_emision_element = Nokogiri::XML::Node.new('sum:ObligadoEmision', xml_document)
+        obligado_emision_razon_social_element = Nokogiri::XML::Node.new('sum:NombreRazon', xml_document)
         obligado_emision_razon_social_element.content = cabecera.obligado_emision.nombre_razon
         obligado_emision_element.add_child(obligado_emision_razon_social_element)
-        obligado_emision_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document)
+        obligado_emision_nif_element = Nokogiri::XML::Node.new('sum:NIF', xml_document)
         obligado_emision_nif_element.content = cabecera.obligado_emision.nif
         obligado_emision_element.add_child(obligado_emision_nif_element)
         cabecera_element.add_child(obligado_emision_element)
       else #Destinatario
-        destinatario_element = Nokogiri::XML::Node.new('sum1:Destinatario', xml_document)
-        destinatario_razon_social_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document)
+        destinatario_element = Nokogiri::XML::Node.new('sum:Destinatario', xml_document)
+        destinatario_razon_social_element = Nokogiri::XML::Node.new('sum:NombreRazon', xml_document)
         destinatario_razon_social_element.content = cabecera.destinatario.nombre_razon
         destinatario_element.add_child(destinatario_razon_social_element)
-        destinatario_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document)
+        destinatario_nif_element = Nokogiri::XML::Node.new('sum:NIF', xml_document)
         destinatario_nif_element.content = cabecera.destinatario.nif
         destinatario_element.add_child(destinatario_nif_element)
         cabecera_element.add_child(destinatario_element)
       end
 
       if cabecera.indicador_representante
-        indicador_representante_element = Nokogiri::XML::new('sum1:IndicadorRepresentante', xml_document)
+        indicador_representante_element = Nokogiri::XML::new('sum:IndicadorRepresentante', xml_document)
         indicador_representante_element.content = cabecera.indicador_representante
         cabecera_element.add_child(indicador_representante_element)
       end
@@ -108,14 +105,14 @@ module Verifactu
       datos_adicionales_respuesta_element = Nokogiri::XML::Node.new('sum:DatosAdicionalesRespuesta', xml_document)
       # Agregar NombreRazonEmisor
       if nombre_razon_emisor
-        nombre_razon_emisor_element = Nokogiri::XML::Node.new('sum1:MostrarNombreRazonEmisor', xml_document)
+        nombre_razon_emisor_element = Nokogiri::XML::Node.new('sum:MostrarNombreRazonEmisor', xml_document)
         nombre_razon_emisor_element.content = "S"
         datos_adicionales_respuesta_element.add_child(nombre_razon_emisor_element)
       end
 
       # Agregar SistemaInformatico
       if sistema_informatico
-        sistema_informatico_element = Nokogiri::XML::Node.new('sum1:MostrarSistemaInformatico', xml_document)
+        sistema_informatico_element = Nokogiri::XML::Node.new('sum:MostrarSistemaInformatico', xml_document)
         sistema_informatico_element.content = "S"
         datos_adicionales_respuesta_element.add_child(sistema_informatico_element)
       end
