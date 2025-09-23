@@ -8,9 +8,9 @@ module Verifactu
         raise Verifactu::VerifactuError, "id_type is required" if id_type.nil?
         raise Verifactu::VerifactuError, "id is required" if id.nil?
 
-        raise Verifactu::VerifactuError, "id_type must be a string" unless id_type.is_a?(String)
+        raise Verifactu::VerifactuError, "id_type must be a string" unless Verifactu::Helper::Validador.cadena_valida?(id_type)
         raise Verifactu::VerifactuError, "id_type debe estar dentro de #{Verifactu::Config::L7.join(', ')}" unless Verifactu::Config::L7.include?(id_type)
-        raise Verifactu::VerifactuError, "id must be a string" unless id.is_a?(String)
+        raise Verifactu::VerifactuError, "id must be a string" unless Verifactu::Helper::Validador.cadena_valida?(id)
 
         if id_type == '02' #Si el campo IDType == “02” (NIF-IVA), no será exigible el campo CodigoPais.
           #TODO Cuando se identifique a través de la agrupación IDOtro e IDType sea “02”, se
@@ -18,7 +18,7 @@ module Verifactu
           # Estados Miembros y debe estar identificado.
         else
           raise Verifactu::VerifactuError, "codigo_pais is required" if codigo_pais.nil?
-          raise Verifactu::VerifactuError, "codigo_pais must be a string" unless codigo_pais.is_a?(String)
+          raise Verifactu::VerifactuError, "codigo_pais must be a string" unless Verifactu::Helper::Validador.cadena_valida?(codigo_pais)
           raise Verifactu::VerifactuError, "codigo_pais debe estar dentro de #{Verifactu::Config::PAISES_PERMITIDOS.join(', ')}" unless Verifactu::Config::PAISES_PERMITIDOS.include?(codigo_pais)
           if codigo_pais == 'ES'
             raise Verifactu::VerifactuError, "id_type debe ser pasaporte español (03) o no censado (07)" unless id_type == '03' || id_type == '07'

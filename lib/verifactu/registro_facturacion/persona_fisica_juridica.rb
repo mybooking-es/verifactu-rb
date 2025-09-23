@@ -33,7 +33,7 @@ module Verifactu
 
       def initialize(nombre_razon:)
         raise Verifactu::VerifactuError, "nombre_razon is required" if nombre_razon.nil? || nombre_razon.empty?
-        raise Verifactu::VerifactuError, "nombre_razon must be a string" unless nombre_razon.is_a?(String)
+        raise Verifactu::VerifactuError, "nombre_razon must be a string" unless Verifactu::Helper::Validador.cadena_valida?(nombre_razon)
         raise Verifactu::VerifactuError, "nombre_razon debe tener un maximo de 120 caracteres" if nombre_razon.length > 120
         @nombre_razon = nombre_razon
       end

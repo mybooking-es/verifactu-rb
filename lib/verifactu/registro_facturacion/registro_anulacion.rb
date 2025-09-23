@@ -25,7 +25,7 @@ module Verifactu
         raise Verifactu::VerifactuError, "id_factura debe ser una instancia de IDFactura" unless id_factura.is_a?(Verifactu::IDFactura)
 
         if ref_externa
-          raise Verifactu::VerifactuError, "ref_externa debe ser una String" unless ref_externa.is_a?(String)
+          raise Verifactu::VerifactuError, "ref_externa debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(ref_externa)
           raise Verifactu::VerifactuError, "ref_externa debe tener un maximo de 60 caracteres" if ref_externa.length > 60
         end
 
@@ -48,9 +48,7 @@ module Verifactu
 
         # Validaciones de fecha_hora_huso_gen_registro
         raise Verifactu::VerifactuError, "fecha_hora_huso_gen_registro is required" if fecha_hora_huso_gen_registro.nil?
-        unless fecha_hora_huso_gen_registro.is_a?(String) && fecha_hora_huso_gen_registro.match?(/\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})\z/)
-          raise Verifactu::VerifactuError, "fecha_hora_huso_gen_registro debe estar en formato ISO 8601: YYYY-MM-DDThh:mm:ssTZD (ej: 2024-01-01T19:20:30+01:00)"
-        end
+        raise Verifactu::VerifactuError, "fecha_hora_huso_gen_registro debe estar en formato ISO 8601: YYYY-MM-DDThh:mm:ssTZD (ej: 2024-01-01T19:20:30+01:00)" unless Verifactu::Helper::Validador.fecha_hora_huso_gen_valida?(fecha_hora_huso_gen_registro)
 
         # Validaciones de tipo_huella
         raise Verifactu::VerifactuError, "tipo_huella is required" if tipo_huella.nil?

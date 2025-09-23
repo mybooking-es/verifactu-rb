@@ -24,8 +24,7 @@ module Verifactu
 
         Helper::Validador.validar_nif(id_emisor_factura)
 
-        raise Verifactu::VerifactuError, "num_serie_factura debe ser una String" unless num_serie_factura.is_a?(String)
-        raise Verifactu::VerifactuError, "num_serie_factura no puede estar vacío" if num_serie_factura.empty?
+        raise Verifactu::VerifactuError, "num_serie_factura debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(num_serie_factura)
         raise Verifactu::VerifactuError, "num_serie_factura debe tener maximo 60 caracteres" if num_serie_factura.length > 60
 
         Helper::Validador.validar_fecha(fecha_expedicion_factura)
@@ -33,7 +32,7 @@ module Verifactu
 
         raise Verifactu::VerifactuError, "num_serie_factura debe contener solo caracteres ASCII imprimibles" unless num_serie_factura.ascii_only? && num_serie_factura.chars.all? { |char| char.ord.between?(32, 126) }
 
-        raise Verifactu::VerifactuError, "huella debe ser una String" if !huella.is_a?(String)
+        raise Verifactu::VerifactuError, "huella debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(huella)
         raise Verifactu::VerifactuError, "huella debe tener 64 caracteres hexadecimales" if huella.length != 64 || !huella.upcase.match?(/\A[A-F0-9]{64}\z/)
 
         registro = new(primer_registro: 'N')

@@ -17,7 +17,7 @@ module Verifactu
       #                   Solo puede cumplimentarse si el campo ref_requerimiento viene informado.
       def initialize(ref_requerimiento:, fin_requerimiento:  "N")
         raise Verifactu::VerifactuError, 'ref_requerimiento is required' if ref_requerimiento.nil?
-        raise Verifactu::VerifactuError, 'ref_requerimiento must be a String' unless ref_requerimiento.is_a?(String)
+        raise Verifactu::VerifactuError, 'ref_requerimiento must be a String' unless Verifactu::Helper::Validador.cadena_valida?(ref_requerimiento)
         raise Verifactu::VerifactuError, 'ref_requerimiento debe tener como maximo 18 caracteres' if ref_requerimiento.length > 18
         @ref_requerimiento = ref_requerimiento
         raise Verifactu::VerifactuError, 'fin_requerimiento must be a S or N' unless Verifactu::Config::L4.include?(fin_requerimiento)

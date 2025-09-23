@@ -75,13 +75,13 @@ module Verifactu
 
         # Validaciones de ref_externa
         unless ref_externa.nil?
-          raise Verifactu::VerifactuError, "ref_externa debe ser una String" if !ref_externa.is_a?(String)
+          raise Verifactu::VerifactuError, "ref_externa debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(ref_externa)
           raise Verifactu::VerifactuError, "ref_externa debe tener una longitud máxima de 60 caracteres" if ref_externa.length > 60
         end
 
         # Validaciones de nombre_razon_emisor
         raise Verifactu::VerifactuError, "nombre_razon_emisor is required" if nombre_razon_emisor.nil?
-        raise Verifactu::VerifactuError, "nombre_razon_emisor debe ser una String" if !nombre_razon_emisor.is_a?(String)
+        raise Verifactu::VerifactuError, "nombre_razon_emisor debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(nombre_razon_emisor)
         raise Verifactu::VerifactuError, "nombre_razon_emisor debe tener una longitud máxima de 120 caracteres" if nombre_razon_emisor.length > 120
 
         # Validaciones de subsanacion
@@ -97,13 +97,13 @@ module Verifactu
 
         # Validaciones de tipo_factura
         raise Verifactu::VerifactuError, "tipo_factura is required" if tipo_factura.nil?
-        raise Verifactu::VerifactuError, "tipo_factura debe ser una String" if !tipo_factura.is_a?(String)
+        raise Verifactu::VerifactuError, "tipo_factura debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(tipo_factura)
         raise Verifactu::VerifactuError, "tipo_factura debe ser uno de los siguientes valores: #{Verifactu::Config::L2.join(', ')}" unless Verifactu::Config::L2.include?(tipo_factura.upcase)
 
         # Validaciones de tipo_rectificativa
         if tipo_factura == "R1" || tipo_factura == "R2" || tipo_factura == "R3" || tipo_factura == "R4" || tipo_factura == "R5"
           raise Verifactu::VerifactuError, "tipo_rectificativa es obligatorio si tipo_factura es rectificativa" if tipo_rectificativa.nil?
-          raise Verifactu::VerifactuError, "tipo_rectificativa debe ser una String" if !tipo_rectificativa.is_a?(String)
+          raise Verifactu::VerifactuError, "tipo_rectificativa debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(tipo_rectificativa)
           raise Verifactu::VerifactuError, "tipo_rectificativa debe estar entre #{Verifactu::Config::L3.join(', ')}" unless Verifactu::Config::L3.include?(tipo_rectificativa.upcase)
         end
 
@@ -162,12 +162,12 @@ module Verifactu
 
         # Validaciones de descripcion_operacion
         raise Verifactu::VerifactuError, "descripcion_operacion is required" if descripcion_operacion.nil?
-        raise Verifactu::VerifactuError, "descripcion_operacion debe ser una String" unless descripcion_operacion.is_a?(String)
+        raise Verifactu::VerifactuError, "descripcion_operacion debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(descripcion_operacion)
         raise Verifactu::VerifactuError, "descripcion_operacion debe tener una longitud máxima de 500 caracteres" if descripcion_operacion.length > 500
 
         # Validaciones de factura_simplificada_Art7273
         if factura_simplificada_Art7273
-          raise Verifactu::VerifactuError, "factura_simplificada_Art7273 debe ser una String" unless factura_simplificada_Art7273.is_a?(String)
+          raise Verifactu::VerifactuError, "factura_simplificada_Art7273 debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(factura_simplificada_Art7273)
           raise Verifactu::VerifactuError, "factura_simplificada_Art7273 debe estar entre #{Verifactu::Config::L4.join(', ')}" unless Verifactu::Config::L4.include?(factura_simplificada_Art7273.upcase)
 
           if factura_simplificada_Art7273 == "S"
@@ -178,7 +178,7 @@ module Verifactu
 
         # Validaciones de factura_sin_identif_destinatario_art61d
         if factura_sin_identif_destinatario_art61d
-          raise Verifactu::VerifactuError, "factura_sin_identif_destinatario_art61d debe ser una String" unless factura_sin_identif_destinatario_art61d.is_a?(String)
+          raise Verifactu::VerifactuError, "factura_sin_identif_destinatario_art61d debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(factura_sin_identif_destinatario_art61d)
           raise Verifactu::VerifactuError, "factura_sin_identif_destinatario_art61d debe estar entre #{Verifactu::Config::L5.join(', ')}" unless Verifactu::Config::L5.include?(factura_sin_identif_destinatario_art61d.upcase)
 
           if factura_sin_identif_destinatario_art61d == "S"
@@ -189,13 +189,13 @@ module Verifactu
 
         # Validaciones de macrodato
         if macrodato
-          raise Verifactu::VerifactuError, "macrodato debe ser una String" unless macrodato.is_a?(String)
+          raise Verifactu::VerifactuError, "macrodato debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(macrodato)
           raise Verifactu::VerifactuError, "macrodato debe estar entre #{Verifactu::Config::L14.join(', ')}" unless Verifactu::Config::L14.include?(macrodato.upcase)
         end
 
         # Validaciones de emitida_por_tercero_o_destinatario
         if emitida_por_tercero_o_destinatario
-          raise Verifactu::VerifactuError, "emitida_por_tercero_o_destinatario debe ser una String" unless emitida_por_tercero_o_destinatario.is_a?(String)
+          raise Verifactu::VerifactuError, "emitida_por_tercero_o_destinatario debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(emitida_por_tercero_o_destinatario)
           raise Verifactu::VerifactuError, "emitida_por_tercero_o_destinatario debe estar entre #{Verifactu::Config::L6.join(', ')}" unless Verifactu::Config::L6.include?(emitida_por_tercero_o_destinatario.upcase)
         end
         # Validaciones de tercero (ASIGNACION DE VARIABLE)
@@ -321,20 +321,19 @@ module Verifactu
 
         # Validaciones de fecha_hora_huso_gen_registro
         raise Verifactu::VerifactuError, "fecha_hora_huso_gen_registro is required" if fecha_hora_huso_gen_registro.nil?
-        unless fecha_hora_huso_gen_registro.is_a?(String) && fecha_hora_huso_gen_registro.match?(/\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})\z/)
-          raise Verifactu::VerifactuError, "fecha_hora_huso_gen_registro debe estar en formato ISO 8601: YYYY-MM-DDThh:mm:ssTZD (ej: 2024-01-01T19:20:30+01:00)"
-        end
+        raise Verifactu::VerifactuError, "fecha_hora_huso_gen_registro debe estar en formato ISO 8601: YYYY-MM-DDThh:mm:ssTZD (ej: 2024-01-01T19:20:30+01:00)" unless Verifactu::Helper::Validador.fecha_hora_huso_gen_valida?(fecha_hora_huso_gen_registro)
+
 
         # Validaciones de num_registro_acuerdo_facturacion
         if num_registro_acuerdo_facturacion
-          raise Verifactu::VerifactuError, "num_registro_acuerdo_facturacion debe ser una String" unless num_registro_acuerdo_facturacion.is_a?(String)
+          raise Verifactu::VerifactuError, "num_registro_acuerdo_facturacion debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(num_registro_acuerdo_facturacion)
           raise Verifactu::VerifactuError, "num_registro_acuerdo_facturacion debe tener una longitud máxima de 15 caracteres" if num_registro_acuerdo_facturacion.length > 15
           # TODO verificar que exista en la AEAT
         end
 
         # Validaciones de id_acuerdo_sistema_informatico
         if id_acuerdo_sistema_informatico
-          raise Verifactu::VerifactuError, "id_acuerdo_sistema_informatico debe ser una String" unless id_acuerdo_sistema_informatico.is_a?(String)
+          raise Verifactu::VerifactuError, "id_acuerdo_sistema_informatico debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(id_acuerdo_sistema_informatico)
           raise Verifactu::VerifactuError, "id_acuerdo_sistema_informatico debe tener una longitud máxima de 16 caracteres" if id_acuerdo_sistema_informatico.length > 16
           # TODO verificar que exista en la AEAT
         end

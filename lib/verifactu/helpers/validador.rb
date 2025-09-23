@@ -79,6 +79,38 @@ module Verifactu
         return true if digito =~ /^\d{1,#{digitos}}(\.\d{0,2})?$/
         false
       end
+
+      # Validar si la cadena contiene solo caracteres ASCII imprimibles
+      # @param cadena [String] Cadena a validar
+      # @raise [Verifactu::VerifactuError] Si la cadena es nil, no es una cadena o contiene caracteres no imprimibles
+      # @note Se excluyen los caracteres '<', '>' y '=' desde 22/09/2025
+      def self.cadena_valida(cadena)
+        raise Verifactu::VerifactuError, "Cadena no puede ser nil" if cadena.nil?
+        raise Verifactu::VerifactuError, "Cadena debe ser una cadena" unless cadena.is_a?(String)
+        raise Verifactu::VerifactuError, "Cadena debe contener solo caracteres ASCII imprimibles" unless cadena.ascii_only? && cadena.chars.all? { |char| char.ord.between?(32, 126) }
+        raise Verifactu::VerifactuError, "Cadena no puede contener los caracteres '<', '>' o '='" if cadena.include?('<') || cadena.include?('>') || cadena.include?('=')
+      end
+
+      # Validar si la cadena es válida (versión que retorna true/false)
+      # @param cadena [String] Cadena a validar
+      # @return [Boolean] true si la cadena es válida, false en caso contrario
+      # @note Se excluyen los caracteres '<', '>' y '=' desde 22/09/2025
+      def self.cadena_valida?(cadena)
+        cadena_valida(cadena)
+        true
+      rescue Verifactu::VerifactuError
+        false
+      end
+
+      # Validar si la fecha y hora con huso horario está en formato ISO 8601
+      # @param fecha_hora_huso_gen [String] Fecha y hora con huso horario a validar
+      # @return [Boolean] true si la fecha y hora con huso horario está en formato ISO 8601, false en caso contrario
+      def self.fecha_hora_huso_gen_valida?(fecha_hora_huso_gen)
+        return false if fecha_hora_huso_gen.nil?
+        return false unless fecha_hora_huso_gen.is_a?(String)
+        return false unless fecha_hora_huso_gen.match?(/\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})\z/)
+        true
+      end
     end
   end
 end

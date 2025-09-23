@@ -35,7 +35,7 @@ module Verifactu
         raise Verifactu::VerifactuError, "tipo_uso_posible_multi_ot is required" if tipo_uso_posible_multi_ot.nil?
         raise Verifactu::VerifactuError, "indicador_multiples_ot is required" if indicador_multiples_ot.nil?
 
-        raise Verifactu::VerifactuError, "nombre_razon debe ser una String" unless nombre_razon.is_a?(String)
+        raise Verifactu::VerifactuError, "nombre_razon debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(nombre_razon)
         raise Verifactu::VerifactuError, "nombre_razon debe tener un maximo de 120 caracteres" if nombre_razon.length > 120
 
         if nif
@@ -46,17 +46,17 @@ module Verifactu
         end
 
         if nombre_sistema_informatico
-          raise Verifactu::VerifactuError, "nombre_sistema_informatico debe ser una String" unless nombre_sistema_informatico.is_a?(String)
+          raise Verifactu::VerifactuError, "nombre_sistema_informatico debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(nombre_sistema_informatico)
           raise Verifactu::VerifactuError, "nombre_sistema_informatico debe tener un maximo de 20 caracteres" if nombre_sistema_informatico.length > 20
         end
 
-        raise Verifactu::VerifactuError, "id_sistema_informatico debe ser una String" unless id_sistema_informatico.is_a?(String)
+        raise Verifactu::VerifactuError, "id_sistema_informatico debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(id_sistema_informatico)
         raise Verifactu::VerifactuError, "id_sistema_informatico debe tener dos 2 caracteres" unless id_sistema_informatico.length == 2
 
-        raise Verifactu::VerifactuError, "version debe ser una String" unless version.is_a?(String)
+        raise Verifactu::VerifactuError, "version debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(version)
         raise Verifactu::VerifactuError, "version debe tener un maximo de 50 caracteres" if version.length > 50
 
-        raise Verifactu::VerifactuError, "numero_instalacion debe ser una String" unless numero_instalacion.is_a?(String)
+        raise Verifactu::VerifactuError, "numero_instalacion debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(numero_instalacion)
         raise Verifactu::VerifactuError, "numero_instalacion debe tener un maximo de 100 caracteres" if numero_instalacion.length > 100
 
         if tipo_uso_posible_solo_verifactu
