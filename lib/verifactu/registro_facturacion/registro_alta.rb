@@ -258,6 +258,7 @@ module Verifactu
               end
             end
 
+            # Añadido en la 1.1.5
             if d.clave_regimen == "E5"
               destinatarios.each do |destinatario|
                 raise Verifactu::VerifactuError, "Cuando el impuesto es IVA, y la operacion exenta es E5, Todos los destinatarios debe tener IdOtro. Destinatario: #{destinatario.inspect}" if destinatario.id_otro.nil?

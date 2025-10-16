@@ -83,18 +83,19 @@ module Verifactu
       # Validar si la cadena contiene solo caracteres ASCII imprimibles
       # @param cadena [String] Cadena a validar
       # @raise [Verifactu::VerifactuError] Si la cadena es nil, no es una cadena o contiene caracteres no imprimibles
-      # @note Se excluyen los caracteres '<', '>' y '=' desde 22/09/2025
+      # @note Se excluyen los caracteres '<', '>' y '=' desde 09/09/2025 (se vuelven a permitir desde 23/10/2025)
       def self.cadena_valida(cadena)
         raise Verifactu::VerifactuError, "Cadena no puede ser nil" if cadena.nil?
         raise Verifactu::VerifactuError, "Cadena debe ser una cadena" unless cadena.is_a?(String)
         raise Verifactu::VerifactuError, "Cadena debe contener solo caracteres ASCII imprimibles" unless cadena.ascii_only? && cadena.chars.all? { |char| char.ord.between?(32, 126) }
+        # Comentar la siguiente línea para permitir los caracteres '<', '>' y '='
         raise Verifactu::VerifactuError, "Cadena no puede contener los caracteres '<', '>' o '='" if cadena.include?('<') || cadena.include?('>') || cadena.include?('=')
       end
 
       # Validar si la cadena es válida (versión que retorna true/false)
       # @param cadena [String] Cadena a validar
       # @return [Boolean] true si la cadena es válida, false en caso contrario
-      # @note Se excluyen los caracteres '<', '>' y '=' desde 22/09/2025
+      # @note Se excluyen los caracteres '<', '>' y '=' desde 09/09/2025 (se vuelven a permitir desde 23/10/2025)
       def self.cadena_valida?(cadena)
         cadena_valida(cadena)
         true
