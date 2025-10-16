@@ -257,6 +257,12 @@ module Verifactu
                 raise Verifactu::VerifactuError, "tipo_recargo_equivalencia debe ser 0 si la fecha de la factura esta entre 1 de enero de 2023 y menor 30 de septiembre de 2024" unless fecha_factura.between?(Date.new(2023, 1, 1), Date.new(2024, 9, 30))
               end
             end
+
+            if d.clave_regimen == "E5"
+              destinatarios.each do |destinatario|
+                raise Verifactu::VerifactuError, "Cuando el impuesto es IVA, y la operacion exenta es E5, Todos los destinatarios debe tener IdOtro. Destinatario: #{destinatario.inspect}" if destinatario.id_otro.nil?
+              end
+            end
           end
 
           if d.calificacion_operacion == "S2"

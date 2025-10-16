@@ -13,6 +13,8 @@ module Verifactu
         # El NIF del campo IDEmisorFactura debe ser el mismo que el del campo NIF de la agrupación ObligadoEmision del bloque Cabecera.
 
         raise Verifactu::VerifactuError, "num_serie_factura debe ser una String valida" unless Verifactu::Helper::Validador.cadena_valida?(num_serie_factura)
+        caracteres_no = ['"', "'", '<', '>', '=']        
+        raise Verifactu::VerifactuError, "num_serie_factura no puede contener los caracteres: #{caracteres_no.join(", ")}" if num_serie_factura.chars.any? { |char| caracteres_no.include?(char) }
         raise Verifactu::VerifactuError, "num_serie_factura no puede estar vacío" if num_serie_factura.empty?
         raise Verifactu::VerifactuError, "num_serie_factura debe tener maximo 60 caracteres" if num_serie_factura.length > 60
 
