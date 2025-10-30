@@ -74,49 +74,51 @@ module Verifactu
         tipo_factura_rectificativa_element.content = registro.tipo_rectificativa
         xml_document_root.add_child(tipo_factura_rectificativa_element)
         # Facturas rectificadas
-        if registro.factura_substituida and registro.factura_substituida.size > 0
+        if registro.facturas_sustituidas and registro.facturas_sustituidas.size > 0
           facturas_sustituidas_element = Nokogiri::XML::Node.new('sum1:FacturasSustituidas', xml_document_root)
           xml_document_root.add_child(facturas_sustituidas_element)
-          registro.factura_substituida.each do |factura_sustituida|
+          registro.facturas_sustituidas.each do |factura_sustituida|
             id_factura_sustituida_element = Nokogiri::XML::Node.new('sum1:IDFacturaSustituida', xml_document_root)
             id_emisor_factura_element = Nokogiri::XML::Node.new('sum1:IDEmisorFactura', xml_document_root)
             id_emisor_factura_element.content = factura_sustituida.id_emisor_factura
             id_factura_sustituida_element.add_child(id_emisor_factura_element)
             id_num_serie_factura_element = Nokogiri::XML::Node.new('sum1:NumSerieFactura', xml_document_root)
             id_num_serie_factura_element.content = factura_sustituida.num_serie_factura
-            id_factura_sustituida_element.add_child(id_emisor_factura_element)
+            id_factura_sustituida_element.add_child(id_num_serie_factura_element)
             id_fecha_expedicion_factura_element = Nokogiri::XML::Node.new('sum1:FechaExpedicionFactura', xml_document_root)
             id_fecha_expedicion_factura_element.content = factura_sustituida.fecha_expedicion_factura
             id_factura_sustituida_element.add_child(id_fecha_expedicion_factura_element)
             facturas_sustituidas_element.add_child(id_factura_sustituida_element)
           end
         end
-        if registro.factura_rectificada and registro.factura_rectificada.size > 0
+        if registro.facturas_rectificadas and registro.facturas_rectificadas.size > 0
           facturas_rectificadas_element = Nokogiri::XML::Node.new('sum1:FacturasRectificadas', xml_document_root)
           xml_document_root.add_child(facturas_rectificadas_element)
-          registro.factura_rectificada.each do |factura_rectificada|
+          registro.facturas_rectificadas.each do |factura_rectificada|
             id_factura_rectificada_element = Nokogiri::XML::Node.new('sum1:IDFacturaRectificada', xml_document_root)
             id_emisor_factura_element = Nokogiri::XML::Node.new('sum1:IDEmisorFactura', xml_document_root)
             id_emisor_factura_element.content = factura_rectificada.id_emisor_factura
             id_factura_rectificada_element.add_child(id_emisor_factura_element)
             id_num_serie_factura_element = Nokogiri::XML::Node.new('sum1:NumSerieFactura', xml_document_root)
             id_num_serie_factura_element.content = factura_rectificada.num_serie_factura
-            id_factura_rectificada_element.add_child(id_emisor_factura_element)
+            id_factura_rectificada_element.add_child(id_num_serie_factura_element)
             id_fecha_expedicion_factura_element = Nokogiri::XML::Node.new('sum1:FechaExpedicionFactura', xml_document_root)
             id_fecha_expedicion_factura_element.content = factura_rectificada.fecha_expedicion_factura
             id_factura_rectificada_element.add_child(id_fecha_expedicion_factura_element)
             facturas_rectificadas_element.add_child(id_factura_rectificada_element)
           end
         end
-        # Importe rectificación
-        importe_rectificacion_element = Nokogiri::XML::Node.new('sum1:ImporteRectificacion', xml_document_root)
-        base_rectificada_element = Nokogiri::XML::Node.new('sum1:BaseRectificada', xml_document_root)
-        base_rectificada_element.content = registro.importe_rectificacion.base_rectificada
-        importe_rectificacion_element.add_child(base_rectificada_element)
-        cuota_rectificada_element = Nokogiri::XML::Node.new('sum1:CuotaRectificada', xml_document_root)
-        cuota_rectificada_element.content = registro.importe_rectificacion.cuota_rectificada
-        importe_rectificacion_element.add_child(cuota_rectificada_element)
-        xml_document_root.add_child(importe_rectificacion_element)
+        # Importe rectificación (sólo en las rectificativas por sustitución)
+        if registro.importe_rectificacion
+          importe_rectificacion_element = Nokogiri::XML::Node.new('sum1:ImporteRectificacion', xml_document_root)
+          base_rectificada_element = Nokogiri::XML::Node.new('sum1:BaseRectificada', xml_document_root)
+          base_rectificada_element.content = registro.importe_rectificacion.base_rectificada
+          importe_rectificacion_element.add_child(base_rectificada_element)
+          cuota_rectificada_element = Nokogiri::XML::Node.new('sum1:CuotaRectificada', xml_document_root)
+          cuota_rectificada_element.content = registro.importe_rectificacion.cuota_rectificada
+          importe_rectificacion_element.add_child(cuota_rectificada_element)
+          xml_document_root.add_child(importe_rectificacion_element)
+        end
       end
 
       # Agrega DescripcionOperacion

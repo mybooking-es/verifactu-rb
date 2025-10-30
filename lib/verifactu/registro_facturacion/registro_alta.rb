@@ -14,7 +14,7 @@ module Verifactu
                   :rechazo_previo,
                   :tipo_factura,
                   :tipo_rectificativa,
-                  :facturas_rectificativas,
+                  :facturas_rectificadas,
                   :facturas_sustituidas,
                   :importe_rectificacion,
                   :fecha_operacion,
@@ -45,7 +45,7 @@ module Verifactu
                     rechazo_previo: nil,
                     tipo_factura:,
                     tipo_rectificativa: nil,
-                    facturas_rectificativas: nil,
+                    facturas_rectificadas: nil,
                     facturas_sustituidas: nil,
                     importe_rectificacion: nil,
                     fecha_operacion: nil,
@@ -107,18 +107,18 @@ module Verifactu
           raise Verifactu::VerifactuError, "tipo_rectificativa debe estar entre #{Verifactu::Config::L3.join(', ')}" unless Verifactu::Config::L3.include?(tipo_rectificativa.upcase)
         end
 
-        # Validaciones de facturas_rectificativas y facturas_sustituidas (ASIGNACION DE VARIABLES)
+        # Validaciones de facturas_rectificadas y facturas_sustituidas (ASIGNACION DE VARIABLES)
         #TODO El NIF del campo IDEmisorFactura debe estar identificado.
         if tipo_factura == "R1" || tipo_factura == "R2" || tipo_factura == "R3" || tipo_factura == "R4" || tipo_factura == "R5"
           unless tipo_rectificativa.nil?
-            raise Verifactu::VerifactuError, "facturas_rectificativas debe ser un Array" unless facturas_rectificativas.is_a?(Array)
-            raise Verifactu::VerifactuError, "facturas_rectificativas no puede estar vacío" if facturas_rectificativas.empty?
-            raise Verifactu::VerifactuError, "facturas_rectificativas no puede tener más de 1000 elementos" if facturas_rectificativas.size > 1000
+            raise Verifactu::VerifactuError, "facturas_rectificadas debe ser un Array" unless facturas_rectificadas.is_a?(Array)
+            raise Verifactu::VerifactuError, "facturas_rectificadas no puede estar vacío" if facturas_rectificadas.empty?
+            raise Verifactu::VerifactuError, "facturas_rectificadas no puede tener más de 1000 elementos" if facturas_rectificadas.size > 1000
 
-            invalid_factura = facturas_rectificativas.find { |f| !f.is_a?(IDFactura) }
-            raise Verifactu::VerifactuError, "Todos los elementos de facturas_rectificativas deben ser instancias de IDFactura" if invalid_factura
+            invalid_factura = facturas_rectificadas.find { |f| !f.is_a?(IDFactura) }
+            raise Verifactu::VerifactuError, "Todos los elementos de facturas_rectificadas deben ser instancias de IDFactura" if invalid_factura
           end
-          @facturas_rectificativas = facturas_rectificativas
+          @facturas_rectificadas = facturas_rectificadas
           @facturas_sustituidas = nil
         elsif tipo_factura == "F3"
           unless tipo_rectificativa.nil?
@@ -130,9 +130,9 @@ module Verifactu
             raise Verifactu::VerifactuError, "Todos los elementos de facturas_sustituidas deben ser instancias de IDFactura" if invalid_factura
           end
           @facturas_sustituidas = facturas_sustituidas
-          @facturas_rectificativas = nil
+          @facturas_rectificadas = nil
         else
-          @facturas_rectificativas = nil
+          @facturas_rectificadas = nil
           @facturas_sustituidas = nil
         end
 
@@ -372,7 +372,7 @@ module Verifactu
         @rechazo_previo = rechazo_previo
         @tipo_factura = tipo_factura
         @tipo_rectificativa = tipo_rectificativa
-        @facturas_rectificativas = facturas_rectificativas
+        @facturas_rectificadas = facturas_rectificadas
         @facturas_sustituidas = facturas_sustituidas
         @importe_rectificacion = importe_rectificacion
         @fecha_operacion = fecha_operacion

@@ -51,7 +51,7 @@ module Verifactu
           rescue Verifactu::VerifactuError
             raise Verifactu::VerifactuError, "Formato de fecha inválido. Debe ser 'dd-mm-aaaa'."
           end
-        else !fecha.is_a?(Date)
+        elsif !fecha.is_a?(Date)
           raise Verifactu::VerifactuError, "Fecha debe ser una cadena de fecha"
         end
         fecha_d
@@ -76,7 +76,7 @@ module Verifactu
       def self.validar_digito(digito, digitos: 12)
         raise Verifactu::VerifactuError, "Dígito no puede ser nil" if digito.nil?
         raise Verifactu::VerifactuError, "Dígito debe ser una cadena" unless digito.is_a?(String)
-        return true if digito =~ /^\d{1,#{digitos}}(\.\d{0,2})?$/
+        return true if digito =~ /^-?\d{1,#{digitos}}(\.\d{0,2})?$/
         false
       end
 

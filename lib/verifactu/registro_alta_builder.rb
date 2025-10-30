@@ -39,8 +39,8 @@ module Verifactu
     def initialize
       @destinatarios = []
       @desglose = []
-      @factura_rectificada = []
-      @factura_substituida = []
+      @facturas_rectificadas = []
+      @facturas_sustituidas = []
       @subsanacion = 'N'
       @rechazo_previo = 'N'
       @descripcion_operacion = Verifactu::Config::DESCRIPCION_OPERACION_DEFECTO
@@ -100,12 +100,12 @@ module Verifactu
     end
 
     def agregar_factura_rectificada(id_emisor, num_serie, fecha_expedicion)
-      @factura_rectificada << Verifactu::RegistroFacturacion::IDFactura.new(id_emisor_factura: id_emisor, num_serie_factura: num_serie, fecha_expedicion_factura: fecha_expedicion)
+      @facturas_rectificadas << Verifactu::RegistroFacturacion::IDFactura.new(id_emisor_factura: id_emisor, num_serie_factura: num_serie, fecha_expedicion_factura: fecha_expedicion)
       self
     end
 
-    def agregar_factura_substituida(id_emisor, num_serie, fecha_expedicion)
-      @factura_substituida << Verifactu::RegistroFacturacion::IDFactura.new(id_emisor_factura: id_emisor, num_serie_factura: num_serie, fecha_expedicion_factura: fecha_expedicion)
+    def agregar_factura_sustituida(id_emisor, num_serie, fecha_expedicion)
+      @facturas_sustituidas << Verifactu::RegistroFacturacion::IDFactura.new(id_emisor_factura: id_emisor, num_serie_factura: num_serie, fecha_expedicion_factura: fecha_expedicion)
       self
     end
 
@@ -270,7 +270,7 @@ module Verifactu
         rechazo_previo: @rechazo_previo,
         tipo_factura: @tipo_factura,
         tipo_rectificativa: @tipo_rectificativa,
-        facturas_rectificativas: @facturas_rectificativas,
+        facturas_rectificadas: @facturas_rectificadas,
         facturas_sustituidas: @facturas_sustituidas,
         importe_rectificacion: @importe_rectificacion,
         fecha_operacion: @fecha_operacion,
