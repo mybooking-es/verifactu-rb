@@ -110,7 +110,7 @@ module Verifactu
         # Validaciones de facturas_rectificadas y facturas_sustituidas (ASIGNACION DE VARIABLES)
         #TODO El NIF del campo IDEmisorFactura debe estar identificado.
         if tipo_factura == "R1" || tipo_factura == "R2" || tipo_factura == "R3" || tipo_factura == "R4" || tipo_factura == "R5"
-          if tipo_rectificativa == 'I' # Rectificativa por diferencia
+          unless tipo_rectificativa.nil?
             raise Verifactu::VerifactuError, "facturas_rectificadas debe ser un Array" unless facturas_rectificadas.is_a?(Array)
             raise Verifactu::VerifactuError, "facturas_rectificadas no puede estar vacío" if facturas_rectificadas.empty?
             raise Verifactu::VerifactuError, "facturas_rectificadas no puede tener más de 1000 elementos" if facturas_rectificadas.size > 1000
@@ -118,14 +118,6 @@ module Verifactu
             raise Verifactu::VerifactuError, "Todos los elementos de facturas_rectificadas deben ser instancias de IDFactura" if invalid_factura
             @facturas_rectificadas = facturas_rectificadas
             @facturas_sustituidas = nil
-          elsif tipo_rectificativa == 'S' # Rectificativa por sustitución
-            raise Verifactu::VerifactuError, "facturas_sustituidas debe ser un Array" unless facturas_sustituidas.is_a?(Array)
-            raise Verifactu::VerifactuError, "facturas_sustituidas no puede estar vacío" if facturas_sustituidas.empty?
-            raise Verifactu::VerifactuError, "facturas_sustituidas no puede tener más de 1000 elementos" if facturas_sustituidas.size > 1000
-            invalid_factura = facturas_sustituidas.find { |f| !f.is_a?(IDFactura) }
-            raise Verifactu::VerifactuError, "Todos los elementos de facturas_sustituidas deben ser instancias de IDFactura" if invalid_factura
-            @facturas_rectificadas = nil
-            @facturas_sustituidas = facturas_sustituidas
           end
         elsif tipo_factura == "F3"
           unless tipo_rectificativa.nil?
@@ -169,7 +161,7 @@ module Verifactu
 
         # Validaciones de descripcion_operacion
         raise Verifactu::VerifactuError, "descripcion_operacion is required" if descripcion_operacion.nil?
-        raise Verifactu::VerifactuError, "descripcion_operacion debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(descripcion_operacion)
+        raise Verifactu::VerifactuError, "descripcion_operacion #{descripcion_operacion} debe ser una String" unless Verifactu::Helper::Validador.cadena_valida?(descripcion_operacion)
         raise Verifactu::VerifactuError, "descripcion_operacion debe tener una longitud máxima de 500 caracteres" if descripcion_operacion.length > 500
 
         # Validaciones de factura_simplificada_Art7273
