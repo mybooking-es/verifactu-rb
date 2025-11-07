@@ -3,63 +3,63 @@ require 'date'
 module Verifactu
   module Helper
     class Validador
-      # Validar el formato del NIF.
-      # @param nif [String] NIF a validar
-      # @raise [Verifactu::VerifactuError] Si el NIF es nil, vacío o no es una cadena
+      # Validate the NIF format.
+      # @param nif [String] NIF to validate
+      # @raise [Verifactu::VerifactuError] If the NIF is nil, empty or not a string
       def self.validar_nif(nif)
         raise Verifactu::VerifactuError, "NIF cannot be nil or empty" if nif.nil? || nif.empty?
         raise Verifactu::VerifactuError, "NIF must be a string" unless nif.is_a?(String)
-        #TODO implementar validación de NIF via API de AEAT
+        #TODO implement NIF validation via AEAT API
       end
 
-      # Validar si la fecha es válida y no está en el futuro.
-      # @param fecha [String, Date] Fecha a validar
-      # @raise [Verifactu::VerifactuError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
+      # Validate if the date is valid and not in the future.
+      # @param fecha [String, Date] Date to validate
+      # @raise [Verifactu::VerifactuError] If the date is nil, not a Date object or a valid date string
       def self.validar_fecha_pasada(fecha)
         fecha_d = self.validar_fecha(fecha)
-        raise Verifactu::VerifactuError, "Fecha no puede estar en el futuro" if fecha_d > Date.today
+        raise Verifactu::VerifactuError, "Date cannot be in the future" if fecha_d > Date.today
       end
 
-      # Validar si la fecha es válida y no está en el pasado.
-      # @param fecha [String, Date] Fecha a validar
-      # @raise [Verifactu::VerifactuError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
+      # Validate if the date is valid and not in the past.
+      # @param fecha [String, Date] Date to validate
+      # @raise [Verifactu::VerifactuError] If the date is nil, not a Date object or a valid date string
       def self.validar_fecha_futura(fecha)
         fecha_d = self.validar_fecha(fecha)
-        raise Verifactu::VerifactuError, "Fecha no puede estar en el pasado" if fecha_d < Date.today
+        raise Verifactu::VerifactuError, "Date cannot be in the past" if fecha_d < Date.today
       end
 
-      # Validar si la fecha es válida y es el último día del año.
-      # @param fecha [String, Date] Fecha a validar
-      # @raise [Verifactu::VerifactuError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
+      # Validate if the date is valid and is the last day of the year.
+      # @param fecha [String, Date] Date to validate
+      # @raise [Verifactu::VerifactuError] If the date is nil, not a Date object or a valid date string
       def self.validar_fecha_fin_de_ano(fecha)
         fecha_d = self.validar_fecha(fecha)
 
         aeat_year = Date.today.year
         valid_years = [aeat_year, aeat_year - 1]
-        raise Verifactu::VerifactuError, "El año de la fecha debe ser igual al año actual o al año anterior" unless valid_years.include?(fecha_d.year)
-        raise Verifactu::VerifactuError, "Fecha debe tener el formato 31-12-20XX" unless fecha_d == Date.new(fecha_d.year, 12, 31)
+        raise Verifactu::VerifactuError, "The year of the date must be equal to the current year or the previous year" unless valid_years.include?(fecha_d.year)
+        raise Verifactu::VerifactuError, "Date must have the format 31-12-20XX" unless fecha_d == Date.new(fecha_d.year, 12, 31)
       end
 
-      # Validar si la fecha es válida
-      # @param fecha [String, Date] Fecha a validar
-      # @raise [Verifactu::VerifactuError] Si la fecha es nil, no es un objeto Date
+      # Validate if the date is valid
+      # @param fecha [String, Date] Date to validate
+      # @raise [Verifactu::VerifactuError] If the date is nil, not a Date object
       def self.validar_fecha(fecha)
-        raise Verifactu::VerifactuError, "Fecha no puede ser nil" if fecha.nil?
+        raise Verifactu::VerifactuError, "Date cannot be nil" if fecha.nil?
         if fecha.is_a?(String)
           begin
             fecha_d = Date.parse(fecha, '%d-%m-%Y')
           rescue Verifactu::VerifactuError
-            raise Verifactu::VerifactuError, "Formato de fecha inválido. Debe ser 'dd-mm-aaaa'."
+            raise Verifactu::VerifactuError, "Invalid date format. Must be 'dd-mm-yyyy'."
           end
         elsif !fecha.is_a?(Date)
-          raise Verifactu::VerifactuError, "Fecha debe ser una cadena de fecha"
+          raise Verifactu::VerifactuError, "Date must be a date string"
         end
         fecha_d
       end
 
-      # Validar si la fecha es válida (versión que retorna true/false)
-      # @param fecha [String, Date] Fecha a validar
-      # @return [Boolean] true si la fecha es válida, false en caso contrario
+      # Validate if the date is valid (version that returns true/false)
+      # @param fecha [String, Date] Date to validate
+      # @return [Boolean] true if the date is valid, false otherwise
       def self.fecha_valida?(fecha)
         validar_fecha(fecha)
         true
@@ -67,35 +67,35 @@ module Verifactu
         false
       end
 
-      # Validar si el digito es un número válido
-      # @note Esta funcion se ha extraido para facilitar el mantenimiento y reutilización
-      # @note De esta forma, se puede cambiar globalmente el separador de decimales o el formato de validación sin afectar a todas las clases que lo utilizan
-      # @param digito [String] Dígito a validar
-      # @param max_length [Integer] Longitud máxima del dígito
-      # @raise [Verifactu::VerifactuError] Si el dígito es nil, no es una cadena o no cumple con el formato
+      # Validate if the digit is a valid number
+      # @note This function has been extracted to facilitate maintenance and reusability
+      # @note This way, the decimal separator or validation format can be changed globally without affecting all classes that use it
+      # @param digito [String] Digit to validate
+      # @param max_length [Integer] Maximum length of the digit
+      # @raise [Verifactu::VerifactuError] If the digit is nil, not a string or does not comply with the format
       def self.validar_digito(digito, digitos: 12)
-        raise Verifactu::VerifactuError, "Dígito no puede ser nil" if digito.nil?
-        raise Verifactu::VerifactuError, "Dígito debe ser una cadena" unless digito.is_a?(String)
+        raise Verifactu::VerifactuError, "Digit cannot be nil" if digito.nil?
+        raise Verifactu::VerifactuError, "Digit must be a string" unless digito.is_a?(String)
         return true if digito =~ /^-?\d{1,#{digitos}}(\.\d{0,2})?$/
         false
       end
 
-      # Validar si la cadena contiene solo caracteres ASCII imprimibles
-      # @param cadena [String] Cadena a validar
-      # @raise [Verifactu::VerifactuError] Si la cadena es nil, no es una cadena o contiene caracteres no imprimibles
-      # @note Se excluyen los caracteres '<', '>' y '=' desde 09/09/2025 (se vuelven a permitir desde 23/10/2025)
+      # Validate if the string contains only printable ASCII characters
+      # @param cadena [String] String to validate
+      # @raise [Verifactu::VerifactuError] If the string is nil, not a string or contains non-printable characters
+      # @note Characters '<', '>' and '=' are excluded from 09/09/2025 (allowed again from 23/10/2025)
       def self.cadena_valida(cadena)
-        raise Verifactu::VerifactuError, "Cadena no puede ser nil" if cadena.nil?
-        raise Verifactu::VerifactuError, "Cadena debe ser una cadena" unless cadena.is_a?(String)
-        raise Verifactu::VerifactuError, "Cadena debe contener solo caracteres ASCII imprimibles" unless cadena.ascii_only? && cadena.chars.all? { |char| char.ord.between?(32, 126) }
-        # Comentar la siguiente línea para permitir los caracteres '<', '>' y '='
-        raise Verifactu::VerifactuError, "Cadena no puede contener los caracteres '<', '>' o '='" if cadena.include?('<') || cadena.include?('>') || cadena.include?('=')
+        raise Verifactu::VerifactuError, "String cannot be nil" if cadena.nil?
+        raise Verifactu::VerifactuError, "String must be a string" unless cadena.is_a?(String)
+        raise Verifactu::VerifactuError, "String must contain only printable ASCII characters" unless cadena.ascii_only? && cadena.chars.all? { |char| char.ord.between?(32, 126) }
+        # Comment the following line to allow the characters '<', '>' and '='
+        raise Verifactu::VerifactuError, "String cannot contain the characters '<', '>' or '='" if cadena.include?('<') || cadena.include?('>') || cadena.include?('=')
       end
 
-      # Validar si la cadena es válida (versión que retorna true/false)
-      # @param cadena [String] Cadena a validar
-      # @return [Boolean] true si la cadena es válida, false en caso contrario
-      # @note Se excluyen los caracteres '<', '>' y '=' desde 09/09/2025 (se vuelven a permitir desde 23/10/2025)
+      # Validate if the string is valid (version that returns true/false)
+      # @param cadena [String] String to validate
+      # @return [Boolean] true if the string is valid, false otherwise
+      # @note Characters '<', '>' and '=' are excluded from 09/09/2025 (allowed again from 23/10/2025)
       def self.cadena_valida?(cadena)
         cadena_valida(cadena)
         true
@@ -103,9 +103,9 @@ module Verifactu
         false
       end
 
-      # Validar si la fecha y hora con huso horario está en formato ISO 8601
-      # @param fecha_hora_huso_gen [String] Fecha y hora con huso horario a validar
-      # @return [Boolean] true si la fecha y hora con huso horario está en formato ISO 8601, false en caso contrario
+      # Validate if the date and time with timezone is in ISO 8601 format
+      # @param fecha_hora_huso_gen [String] Date and time with timezone to validate
+      # @return [Boolean] true if the date and time with timezone is in ISO 8601 format, false otherwise
       def self.fecha_hora_huso_gen_valida?(fecha_hora_huso_gen)
         return false if fecha_hora_huso_gen.nil?
         return false unless fecha_hora_huso_gen.is_a?(String)

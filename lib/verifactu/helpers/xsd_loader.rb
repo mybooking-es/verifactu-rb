@@ -32,7 +32,7 @@ module Verifactu
             next
           end
 
-          # Recursivamente resolver los imports/includes del importado
+          # Recursively resolve the imports/includes of the imported
           load_and_resolve(full_path)
           node['schemaLocation'] = full_path
         end

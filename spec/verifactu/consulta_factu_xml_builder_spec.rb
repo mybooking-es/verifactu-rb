@@ -6,15 +6,15 @@ RSpec.describe Verifactu::ConsultaFactuXmlBuilder do
 
     it 'creates a valid XML representation of RegFactuSistemaFacturacion' do
 
-      # Crea la cabecera
+      # Create la cabecera
       cabecera = cabecera_consulta_valida
       filtro_consulta = filtro_consulta_compleja_valida
 
 
-      # Genera el XML de la consulta
+      # Generate el XML de la consulta
       filtro_consulta_xml = Verifactu::FiltroConsultaXmlBuilder.build(filtro_consulta)
 
-      # Genera el XML
+      # Generate el XML
       xml = Verifactu::ConsultaFactuXmlBuilder.build(cabecera: cabecera, filtro_consulta_xml: filtro_consulta_xml)
       #p "xml: #{xml.root.to_xml}"
 
