@@ -6,17 +6,17 @@
 
 ## [0.2.0] - 2025-09-23
 
-- Validacion de cadenas ahora tiene su propia validación en validador.rb (antes `cadena.is_a?(String)`)
-- Validacion de fecha_hora_huso ahora tiene su propia validación en validador.rb (antes un unless ... raise)
+- String validation now has its own validation in validador.rb (previously `cadena.is_a?(String)`)
+- Date-time with timezone validation now has its own validation in validador.rb (previously an unless ... raise)
 
-- Verifactu ha hecho cambios en los documentos: (se mencionan solo los cambios que afectan a esta gema)
-- - Ahora no se permiten los caracteres '<', '>' y '=' en los campos alfanumericos
+- Verifactu has made changes to the documents: (only changes affecting this gem are mentioned)
+- - Characters '<', '>' and '=' are no longer allowed in alphanumeric fields
 
 ## [0.3.0] - 2025-10-16
 
-- Validacion de cadenas ahora tiene su propia validación en validador.rb (antes `cadena.is_a?(String)`)
-- Validacion de fecha_hora_huso ahora tiene su propia validación en validador.rb (antes un unless ... raise)
+- String validation now has its own validation in validador.rb (previously `cadena.is_a?(String)`)
+- Date-time with timezone validation now has its own validation in validador.rb (previously an unless ... raise)
 
-- Verifactu ha hecho cambios en los documentos: (se mencionan solo los cambios que afectan a esta gema)
-- - Ahora se permiten los caracteres '<', '>' y '=' en los campos alfanumericos (CAMBIO NO APLICADO POR SEGURIDAD. Se puede modificar `Verifactu::Helper::Validador.cadena_valida()` para permitir dichos caracteres)
-- - Ahora no se permiten los caracteres `"` `'` `<`, `>` y `=` en NumSerieFactura
+- Verifactu has made changes to the documents: (only changes affecting this gem are mentioned)
+- - Characters '<', '>' and '=' are now allowed in alphanumeric fields (CHANGE NOT APPLIED FOR SECURITY. You can modify `Verifactu::Helper::Validador.cadena_valida()` to allow these characters)
+- - Characters `"` `'` `<`, `>` and `=` are no longer allowed in NumSerieFactura

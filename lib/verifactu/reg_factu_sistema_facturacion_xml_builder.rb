@@ -26,14 +26,14 @@ module Verifactu
 
       xml_document.encoding = 'UTF-8'
 
-      # Agrega la cabecera
+      # Add la cabecera
       agregar_cabecera(xml_document, cabecera)
 
-      # Crea el nodo RegistroFactura que contendrá los registros de factura alta
+      # Create the RegistroFactura node that will contain the high invoice records
       @registro_factura_element = Nokogiri::XML::Node.new('sum:RegistroFactura', xml_document)
       xml_document.root.add_child(@registro_factura_element)
 
-      # Agrega el registro de factura
+      # Add the invoice record
       agregar_registro_alta(xml_document, registro_alta_xml)
 
       return xml_document
@@ -41,7 +41,7 @@ module Verifactu
     end
 
     #
-    # Agrega un registro de alta al XML
+    # Add a high record to the XML
     #
     def self.agregar_registro_alta(xml_document, registro_alta_xml)
 
@@ -54,7 +54,7 @@ module Verifactu
     private
 
     #
-    # Agrega la cabecera al XML.
+    # Add la cabecera al XML.
     #
     def self.agregar_cabecera(xml_document, cabecera)
 
@@ -63,7 +63,7 @@ module Verifactu
       # Obligado emision
       obligado_emision_element = Nokogiri::XML::Node.new('sum1:ObligadoEmision', xml_document)
       obligado_emision_razon_social_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document)
-      obligado_emision_razon_social_element.content = cabecera.obligado_emision.nombre_razon
+      obligado_emision_razon_social_element.content = cabecera.obligado_emision.business_name
       obligado_emision_element.add_child(obligado_emision_razon_social_element)
       obligado_emision_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document)
       obligado_emision_nif_element.content = cabecera.obligado_emision.nif
@@ -74,7 +74,7 @@ module Verifactu
         # Representante
         obligado_representante_element = Nokogiri::XML::Node.new('sum1:Representante', xml_document)
         obligado_representante_razon_social_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document)
-        obligado_representante_razon_social_element.content = cabecera.representante.nombre_razon
+        obligado_representante_razon_social_element.content = cabecera.representante.business_name
         obligado_representante_element.add_child(obligado_representante_razon_social_element)
         obligado_representante_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document)
         obligado_representante_nif_element.content = cabecera.representante.nif

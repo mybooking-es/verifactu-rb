@@ -10,16 +10,16 @@ module Verifactu
               '02', # ISPI Ceuta y Melilla,
               '03', # IGIC
               '05'] # Otros
-        # Tipo de factura
+        # Invoice type
         L2 = ['F1', # Factura
               'F2', # Factura simplificada
-              'F3', # Factura emitida en sustitución factura simplificada facturadas y declaradas
+              'F3', # Invoice issued replacing simplified invoices that were invoiced and declared
               'R1', # Rectificativa (Art. 80.1 80.2 80.6)
               'R2', # Rectificativa (Art. 80.3)
               'R3', # Rectificativa (Art. 80.4)
               'R4', # Rectificativa (Resto)
-              'R5'] # Rectificativa en factura simplificada
-        # Tipo de rectificativa
+              'R5'] # Rectification in simplified invoice
+        # Rectification type
         L3 = ['S', # Por sustitución
               'I'] # Por diferencia
         L4 = ['S', 'N'] # Si/No

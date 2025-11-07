@@ -2,36 +2,36 @@ require 'digest'
 module Verifactu
   module Helper
     #
-    # Genera la huella para el registro de alta de una factura.
+    # Generate the fingerprint for the invoice high record.
     #
     class GenerarHuellaRegistroAlta
 
-      # Ejecuta la generación de la huella para el registro de alta de una factura.
-      # @param [String] id_emisor_factura ID del emisor de la factura.
-      # @param [String] num_serie_factura Número de serie de la factura.
-      # @param [String] fecha_expedicion_factura Fecha de expedición de la factura en formato 'dd-MM-yyyy'.
-      # @param [String] tipo_factura Tipo de la factura, e.g., 'F1' para factura ordinaria.
-      # @param [String] cuota_total Cuota total de la factura.
-      # @param [String] importe_total Importe total de la factura.
-      # @param [String] huella Huella de la factura, opcional. (en blanco para el primer registro o la anterior)
-      # @param [String] fecha_hora_huso_gen_registro Fecha y hora de generación del registro en formato ISO 8601.
-      # @return [String] La huella generada como un hash SHA256.
-      def self.execute(id_emisor_factura:, num_serie_factura:, fecha_expedicion_factura:, tipo_factura:, cuota_total:,
-                       importe_total:, huella:, fecha_hora_huso_gen_registro:)
+      # Executes the generation of the fingerprint for the invoice high record.
+      # @param [String] issuer_id Invoice issuer ID.
+      # @param [String] series_number Invoice series number.
+      # @param [String] issue_date Invoice issue date in 'dd-MM-yyyy' format.
+      # @param [String] invoice_type Invoice type, e.g., 'F1' for regular invoice.
+      # @param [String] total_tax Total tax amount of the invoice.
+      # @param [String] total_amount Total amount of the invoice.
+      # @param [String] fingerprint Invoice fingerprint, optional. (blank for first record or previous one)
+      # @param [String] record_generation_datetime Record generation date and time in ISO 8601 format.
+      # @return [String] The generated fingerprint as a SHA256 hash.
+      def self.execute(issuer_id:, series_number:, issue_date:, invoice_type:, total_tax:,
+                       total_amount:, fingerprint:, record_generation_datetime:)
 
-        # Prepara el texto para generar la huella
+        # Prepare the text to generate the fingerprint
         elements = []
-        elements << "IDEmisorFactura=#{id_emisor_factura}"
-        elements << "NumSerieFactura=#{num_serie_factura}"
-        elements << "FechaExpedicionFactura=#{fecha_expedicion_factura}"
-        elements << "TipoFactura=#{tipo_factura}"
-        elements << "CuotaTotal=#{cuota_total}"
-        elements << "ImporteTotal=#{importe_total}"
-        elements << "Huella=#{huella ? huella : ''}"
-        elements << "FechaHoraHusoGenRegistro=#{fecha_hora_huso_gen_registro}"
+        elements << "IDEmisorFactura=#{issuer_id}"
+        elements << "NumSerieFactura=#{series_number}"
+        elements << "FechaExpedicionFactura=#{issue_date}"
+        elements << "TipoFactura=#{invoice_type}"
+        elements << "CuotaTotal=#{total_tax}"
+        elements << "ImporteTotal=#{total_amount}"
+        elements << "Huella=#{fingerprint ? fingerprint : ''}"
+        elements << "FechaHoraHusoGenRegistro=#{record_generation_datetime}"
         text = elements.join('&')
 
-        # Generar la huella como un hash SHA256 del texto concatenado
+        # Generate the fingerprint as a SHA256 hash of the concatenated text
         Digest::SHA256.hexdigest(text).upcase
 
       end
