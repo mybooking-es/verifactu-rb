@@ -6,17 +6,17 @@ RSpec.describe Verifactu::RegFactuSistemaFacturacionXmlBuilder do
 
     it 'creates a valid XML representation of RegFactuSistemaFacturacion' do
 
-      # Crea la cabecera
+      # Create la cabecera
       cabecera = cabecera_con_representante
 
-      # Crea una factura de alta con los datos necesarios
+      # Create a high invoice with the necessary data
       huella = huella_inicial
       registo_alta_factura = registro_alta_factura_valido(huella)
 
-      # Genera el XML del registro de alta
-      registro_alta_xml = Verifactu::RegistroAltaXmlBuilder.build(registo_alta_factura)
+      # Generate the XML of the high record
+      registro_alta_xml = Verifactu::HighRecordXmlBuilder.build(registo_alta_factura)
 
-      # Genera el XML
+      # Generate el XML
       xml = Verifactu::RegFactuSistemaFacturacionXmlBuilder.build(cabecera, registro_alta_xml)
       #p "xml: #{xml.root.to_xml}"
 

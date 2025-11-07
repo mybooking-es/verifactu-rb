@@ -1,10 +1,10 @@
 module Verifactu
-  module RegistroFacturacion
-    # Representa <sum1:RemisionRequerimiento>
-    class RemisionRequerimiento
+  module InvoiceRegistration
+    # Represents <sum1:RemisionRequerimiento>
+    class RequirementRemission
       attr_reader :ref_requerimiento, :fin_requerimiento
 
-      # @param [String] ref_requerimiento Sólo cuando el motivo de la remisión sea para dar respuesta
+      # @param [String] ref_requerimiento Only when the reason for the remission is to respond
       #                   a un requerimiento de información previo efectuado por parte de la AEAT,
       #                   se deberá indicar aquí la referencia de dicho requerimiento,
       #                   lo que forma parte del detalle de las circunstancias de generación del registro de facturación.

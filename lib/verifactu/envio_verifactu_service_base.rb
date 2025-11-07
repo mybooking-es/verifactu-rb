@@ -6,28 +6,28 @@ module Verifactu
     URL_PROD = 'https://www1.agenciatributaria.gob.es/wlpl/TIKE-CONT/ws/SistemaFacturacion/VerifactuSOAP'
     URL_PROD_SELLO = 'https://www10.agenciatributaria.gob.es/wlpl/TIKE-CONT/ws/SistemaFacturacion/VerifactuSOAP'
 
-    # Envia un registro de facturación a Verifactu
+    # Sends an invoice registration to Verifactu
     # @param environment [Symbol] :pre_prod o :prod
-    # @param reg_factu_xml [String] XML del registro de facturación
+    # @param reg_factu_xml [String] XML of the billing record
     # @param client_cert [String] Certificado del cliente en formato PEM
     # @param client_key [String] Clave privada del cliente en formato PEM
-    # @param cert_password [String, nil] Contraseña del certificado (opcional)
+    # @param cert_password [String, nil] Certificate password (optional)
     #
     def send_verifactu(environment:, reg_factu_xml:, certificado_sello: , client_cert:, client_key:, cert_password: nil)
 
-      # Validación del entorno
+      # Validation del entorno
       unless [:pre_prod, :prod].include?(environment)
         raise Verifactu::VerifactuError, "Invalid environment: #{environment}. Use :pre_prod or :prod."
       end
 
-      # Validación del XML
+      # Validation del XML
       if reg_factu_xml.nil? || reg_factu_xml.empty?
-        raise Verifactu::VerifactuError, 'XML del registro de facturación no puede estar vacío'
+        raise Verifactu::VerifactuError, 'XML of the billing record no puede estar vacío'
       end
 
       validate_schema = validate_schema(reg_factu_xml)
       unless validate_schema[:valid]
-        raise Verifactu::VerifactuError, "El XML del registro de facturación no es válido según el esquema XSD: "\
+        raise Verifactu::VerifactuError, "El XML of the billing record no es válido según el esquema XSD: "\
                              "#{validate_schema[:error_type]} - #{validate_schema[:errors].join(', ')}"
       end
 
@@ -63,11 +63,11 @@ module Verifactu
     #
     # Sends a request to the Verifactu service using Savon
     # @param url [String] URL del servicio Verifactu
-    # @param xml [String] XML del registro de facturación
+    # @param xml [String] XML of the billing record
     # @param client_cert [String] Certificado del cliente en formato PEM
     # @param client_key [String] Clave privada del cliente en formato PEM
-    # @param cert_password [String, nil] Contraseña del certificado (opcional)
-    # @return [Hash] Resultado de la petición
+    # @param cert_password [String, nil] Certificate password (optional)
+    # @return [Hash] Request result
     #
     # @example
     #   send_request(url: 'https://example.com/soap',
@@ -76,7 +76,7 @@ module Verifactu
     #                client_key: '-----BEGIN RSA PRIVATE KEY----- ... -----END RSA PRIVATE KEY-----',
     #                cert_password: 'password')
     #
-    # @return [Hash] Resultado de la petición con claves :result, :body, :fault, :http_code, :error, :backtrace
+    # @return [Hash] Request result with keys :result, :body, :fault, :http_code, :error, :backtrace
     #
     # @raise [Verifactu::VerifactuError] Si el XML está vacío o si el entorno no es válido
     #
@@ -130,7 +130,7 @@ module Verifactu
     # @param url [String] URL del servicio Verifactu
     # @param client_cert [String] Certificado del cliente en formato PEM
     # @param client_key [String] Clave privada del cliente en formato PEM
-    # @param cert_password [String, nil] Contraseña del certificado (opcional)
+    # @param cert_password [String, nil] Certificate password (optional)
     # @return [Savon::Client] Cliente Savon configurado
     #
     # @raise [Verifactu::VerifactuError] Si el certificado o la clave están vacíos
@@ -180,7 +180,7 @@ module Verifactu
 
     #
     # Builds the SOAP request for Verifactu
-    # @param xml [String] XML del registro de envío a Verifactu
+    # @param xml [String] XML of the submission record to Verifactu
     # @return [String] SOAP request
     #
     def build_soap_request(xml)
