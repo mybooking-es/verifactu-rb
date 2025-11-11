@@ -5,7 +5,6 @@ PATH
       bigdecimal
       erb
       nokogiri (>= 1.17.2)
-      rack (~> 2.2)
       rqrcode
       savon
 
@@ -72,7 +71,7 @@ GEM
       bigdecimal
     public_suffix (6.0.2)
     racc (1.8.1)
-    rack (2.2.17)
+    rack (3.2.4)
     rake (13.3.0)
     rexml (3.4.1)
     rqrcode (3.1.0)
