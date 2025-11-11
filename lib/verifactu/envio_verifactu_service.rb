@@ -10,7 +10,7 @@ module Verifactu
 
     #
     # Builds the SOAP request for Verifactu
-    # @param xml [String] XML del registro de envío a Verifactu
+    # @param xml [String] XML of the submission record to Verifactu
     # @return [String] SOAP request
     #
     def build_soap_request(xml)

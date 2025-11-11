@@ -7,7 +7,7 @@ module Verifactu
 
       def self.cabecera_obligado_emisor(obligado_emision:, indicador_representante: nil)
         raise Verifactu::VerifactuError, "obligado_emision is required" if obligado_emision.nil?
-        raise Verifactu::VerifactuError, "obligado_emision must be PersonaFisicaJuridica" unless obligado_emision.is_a?(Verifactu::RegistroFacturacion::PersonaFisicaJuridica)
+        raise Verifactu::VerifactuError, "obligado_emision must be PersonaFisicaJuridica" unless obligado_emision.is_a?(Verifactu::InvoiceRegistration::LegalEntity)
         raise Verifactu::VerifactuError, "obligado_emision must have nif" if obligado_emision.nif.nil?
         @cabecera = new(indicador_representante)
         @cabecera.instance_variable_set(:@obligado_emision, obligado_emision)
@@ -16,7 +16,7 @@ module Verifactu
 
       def self.cabecera_destinatario(destinatario:, indicador_representante: nil)
         raise Verifactu::VerifactuError, "destinatario is required" if destinatario.nil?
-        raise Verifactu::VerifactuError, "destinatario must be PersonaFisicaJuridica" unless destinatario.is_a?(Verifactu::RegistroFacturacion::PersonaFisicaJuridica)
+        raise Verifactu::VerifactuError, "destinatario must be PersonaFisicaJuridica" unless destinatario.is_a?(Verifactu::InvoiceRegistration::LegalEntity)
         raise Verifactu::VerifactuError, "destinatario must have nif" if destinatario.nif.nil?
         @cabecera = new(indicador_representante)
         @cabecera.instance_variable_set(:@destinatario, destinatario)

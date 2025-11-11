@@ -23,7 +23,7 @@ module Verifactu
         # Parsear el XML de entrada
         xml_doc = Nokogiri::XML(xml_str) { |config| config.strict }
 
-        # Validar el XML contra el esquema XSD
+        # Validate el XML contra el esquema XSD
         errors = xsd.validate(xml_doc)
         if errors.empty?
           return {valid: true}

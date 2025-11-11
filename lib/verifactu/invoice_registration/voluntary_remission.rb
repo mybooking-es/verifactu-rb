@@ -1,7 +1,7 @@
 module Verifactu
-  module RegistroFacturacion
-    # Representa <sum1:RemisionVoluntaria>
-    class RemisionVoluntaria
+  module InvoiceRegistration
+    # Represents <sum1:RemisionVoluntaria>
+    class VoluntaryRemission
       attr_reader :fecha_fin_verifactu, :incidencia
 
       def initialize(fecha_fin_verifactu: nil, incidencia:  nil)

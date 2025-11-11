@@ -28,11 +28,11 @@ module Verifactu
 
       xml_document.encoding = 'UTF-8'
 
-      # Agrega la cabecera
+      # Add la cabecera
       agregar_cabecera(xml_document, cabecera)
 
 
-      # Agrega el registro de factura
+      # Add the query filter
       agregar_filtro_consulta(xml_document, filtro_consulta_xml)
 
       agregar_datos_adicionales(xml_document, nombre_razon_emisor, sistema_informatico) if nombre_razon_emisor || sistema_informatico
@@ -41,7 +41,7 @@ module Verifactu
     end
 
     #
-    # Agrega un registro de alta al XML
+    # Add a query filter to the XML
     #
     def self.agregar_filtro_consulta(xml_document, filtro_consulta_xml)
 
@@ -54,7 +54,7 @@ module Verifactu
     private
 
     #
-    # Agrega la cabecera al XML.
+    # Add la cabecera al XML.
     #
     def self.agregar_cabecera(xml_document, cabecera)
 
@@ -71,7 +71,7 @@ module Verifactu
       if cabecera.obligado_emision
         obligado_emision_element = Nokogiri::XML::Node.new('sum:ObligadoEmision', xml_document)
         obligado_emision_razon_social_element = Nokogiri::XML::Node.new('sum:NombreRazon', xml_document)
-        obligado_emision_razon_social_element.content = cabecera.obligado_emision.nombre_razon
+        obligado_emision_razon_social_element.content = cabecera.obligado_emision.business_name
         obligado_emision_element.add_child(obligado_emision_razon_social_element)
         obligado_emision_nif_element = Nokogiri::XML::Node.new('sum:NIF', xml_document)
         obligado_emision_nif_element.content = cabecera.obligado_emision.nif
@@ -80,7 +80,7 @@ module Verifactu
       else #Destinatario
         destinatario_element = Nokogiri::XML::Node.new('sum:Destinatario', xml_document)
         destinatario_razon_social_element = Nokogiri::XML::Node.new('sum:NombreRazon', xml_document)
-        destinatario_razon_social_element.content = cabecera.destinatario.nombre_razon
+        destinatario_razon_social_element.content = cabecera.destinatario.business_name
         destinatario_element.add_child(destinatario_razon_social_element)
         destinatario_nif_element = Nokogiri::XML::Node.new('sum:NIF', xml_document)
         destinatario_nif_element.content = cabecera.destinatario.nif
@@ -99,18 +99,18 @@ module Verifactu
     end
 
     #
-    # Agrega datos adicionales de respuesta al XML.
+    # Add datos adicionales de respuesta al XML.
     #
     def self.agregar_datos_adicionales(xml_document, nombre_razon_emisor, sistema_informatico)
       datos_adicionales_respuesta_element = Nokogiri::XML::Node.new('sum:DatosAdicionalesRespuesta', xml_document)
-      # Agregar NombreRazonEmisor
+      # Add NombreRazonEmisor
       if nombre_razon_emisor
         nombre_razon_emisor_element = Nokogiri::XML::Node.new('sum:MostrarNombreRazonEmisor', xml_document)
         nombre_razon_emisor_element.content = "S"
         datos_adicionales_respuesta_element.add_child(nombre_razon_emisor_element)
       end
 
-      # Agregar SistemaInformatico
+      # Add SistemaInformatico
       if sistema_informatico
         sistema_informatico_element = Nokogiri::XML::Node.new('sum:MostrarSistemaInformatico', xml_document)
         sistema_informatico_element.content = "S"
