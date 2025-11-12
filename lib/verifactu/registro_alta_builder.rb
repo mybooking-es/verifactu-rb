@@ -229,9 +229,10 @@ module Verifactu
       self
     end
 
-    def con_sistema_informatico(nombre_razon:, nif:, nombre_sistema_informatico:, id_sistema_informatico:, version:, numero_instalacion:,
+    def con_sistema_informatico(nombre_razon:, nif: nil, id_otro: nil, nombre_sistema_informatico:, id_sistema_informatico:, version:, numero_instalacion:,
                    tipo_uso_posible_solo_verifactu:, tipo_uso_posible_multi_ot:, indicador_multiples_ot:)
-      @sistema_informatico = Verifactu::RegistroFacturacion::SistemaInformatico.new(nombre_razon: nombre_razon, nif: nif, nombre_sistema_informatico: nombre_sistema_informatico, id_sistema_informatico: id_sistema_informatico, version: version, numero_instalacion: numero_instalacion,
+      @sistema_informatico = Verifactu::RegistroFacturacion::SistemaInformatico.new(nombre_razon: nombre_razon, nif: nif,
+                   id_otro: id_otro&.then {|atts| Verifactu::RegistroFacturacion::IDOtro.new(**atts) }, nombre_sistema_informatico: nombre_sistema_informatico, id_sistema_informatico: id_sistema_informatico, version: version, numero_instalacion: numero_instalacion,
                    tipo_uso_posible_solo_verifactu: tipo_uso_posible_solo_verifactu, tipo_uso_posible_multi_ot: tipo_uso_posible_multi_ot, indicador_multiples_ot: indicador_multiples_ot)
       self
     end
