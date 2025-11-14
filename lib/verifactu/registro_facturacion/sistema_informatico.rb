@@ -73,6 +73,7 @@ module Verifactu
 
         @nombre_razon = nombre_razon
         @nif = nif
+        @id_otro = id_otro
         @nombre_sistema_informatico = nombre_sistema_informatico
         @id_sistema_informatico = id_sistema_informatico.upcase
         @version = version
