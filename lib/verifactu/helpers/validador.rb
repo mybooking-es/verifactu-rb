@@ -17,7 +17,12 @@ module Verifactu
       # @raise [Verifactu::VerifactuError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
       def self.validar_fecha_pasada(fecha)
         fecha_d = self.validar_fecha(fecha)
-        raise Verifactu::VerifactuError, "Fecha no puede estar en el futuro" if fecha_d > Date.today
+        if Time.zone
+          today = Time.zone.today
+        else
+          today = Date.today
+        end
+        raise Verifactu::VerifactuError, "Fecha no puede estar en el futuro" if fecha_d > today
       end
 
       # Validar si la fecha es válida y no está en el pasado.
@@ -25,7 +30,12 @@ module Verifactu
       # @raise [Verifactu::VerifactuError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
       def self.validar_fecha_futura(fecha)
         fecha_d = self.validar_fecha(fecha)
-        raise Verifactu::VerifactuError, "Fecha no puede estar en el pasado" if fecha_d < Date.today
+        if Time.zone
+          today = Time.zone.today
+        else
+          today = Date.today
+        end
+        raise Verifactu::VerifactuError, "Fecha no puede estar en el pasado" if fecha_d < today
       end
 
       # Validar si la fecha es válida y es el último día del año.
