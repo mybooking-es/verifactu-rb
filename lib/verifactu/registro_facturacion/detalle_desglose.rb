@@ -234,10 +234,10 @@ module Verifactu
       def self.validar_calificacion_operacion(calificacion_operacion:, tipo_impositivo:, cuota_repercutida:)
         if calificacion_operacion == "S2"
           # La validacion de tipo_factura se realiza en el validador de factura
-          unless tipo_impositivo == "0"
+          unless BigDecimal(tipo_impositivo).zero?
             raise Verifactu::VerifactuError, "DetalleDesglose - calificacionOperacion S2 - tipo_impositivo debe ser 0"
           end
-          unless cuota_repercutida == "0"
+          unless BigDecimal(cuota_repercutida).zero?
             raise Verifactu::VerifactuError, "DetalleDesglose - calificacionOperacion S2 - cuota_repercutida debe ser 0"
           end
         elsif calificacion_operacion == "S1"
