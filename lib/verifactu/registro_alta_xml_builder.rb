@@ -143,18 +143,20 @@ module Verifactu
         xml_document_root.add_child(tercero_element)
       end
 
-      # Agregar destinatarios
-      destinatarios_element = Nokogiri::XML::Node.new('sum1:Destinatarios', xml_document_root)
-      xml_document_root.add_child(destinatarios_element)
-      registro.destinatarios.each do |destinatario|
-        id_destinatario_element = Nokogiri::XML::Node.new('sum1:IDDestinatario', xml_document_root)
-        nombre_destinatario_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document_root)
-        nombre_destinatario_element.content = destinatario.nombre_razon
-        id_destinatario_element.add_child(nombre_destinatario_element)
-        nif_destinatario_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document_root)
-        nif_destinatario_element.content = destinatario.nif
-        id_destinatario_element.add_child(nif_destinatario_element)
-        destinatarios_element.add_child(id_destinatario_element)
+      # Agregar destinatarios (solo si existen)  
+      if registro.destinatarios && !registro.destinatarios.empty?  
+        destinatarios_element = Nokogiri::XML::Node.new('sum1:Destinatarios', xml_document_root)  
+        xml_document_root.add_child(destinatarios_element)  
+        registro.destinatarios.each do |destinatario|  
+          id_destinatario_element = Nokogiri::XML::Node.new('sum1:IDDestinatario', xml_document_root)  
+          nombre_destinatario_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document_root)  
+          nombre_destinatario_element.content = destinatario.nombre_razon  
+          id_destinatario_element.add_child(nombre_destinatario_element)  
+          nif_destinatario_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document_root)  
+          nif_destinatario_element.content = destinatario.nif  
+          id_destinatario_element.add_child(nif_destinatario_element)  
+          destinatarios_element.add_child(id_destinatario_element)  
+        end  
       end
 
       # Agrega Desgloses
