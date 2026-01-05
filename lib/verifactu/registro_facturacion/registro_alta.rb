@@ -238,7 +238,7 @@ module Verifactu
         desglose.each do |d|
           raise Verifactu::VerifactuError, "Cada elemento de desglose debe ser una instancia de Desglose" unless d.is_a?(DetalleDesglose)
           if d.impuesto == "01"
-            fecha_factura = Date.parse(fecha_operacion || id_factura.fecha_expedicion_factura, "dd-mm-yyyy")
+            fecha_factura = fecha_operacion.is_a?(Date) ? fecha_operacion : Date.parse(fecha_operacion || id_factura.fecha_expedicion_factura, "dd-mm-yyyy")
             case d.tipo_impositivo
             when "5"
               raise Verifactu::VerifactuError, "tipo_impositivo no puede ser 5 si la fecha de la factura no esta entre 1 de julio de 2022 y 30 de septiembre de 2024" unless fecha_factura.between?(Date.new(2022, 7, 1), Date.new(2024, 9, 30))
