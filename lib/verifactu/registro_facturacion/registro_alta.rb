@@ -154,7 +154,7 @@ module Verifactu
           raise Verifactu::VerifactuError, "fecha_operacion no puede ser inferior a #{min_date}" if fecha_operacion < min_date
           raise Verifactu::VerifactuError, "fecha_operacion no puede ser superior a #{max_date}" if fecha_operacion > max_date
 
-          if ["01", "03", nil].include?(impuesto) && !["14", "15"].include?(clave_regimen)
+          if ["01", "03", nil].include?(desglose.first.impuesto) && !["14", "15"].include?(desglose.first.clave_regimen)
             raise Verifactu::VerifactuError, "fecha_operacion no puede ser superior a la fecha actual para Impuesto='01', '03' o no cumplimentado, salvo que ClaveRegimen sea '14' o '15'" if fecha_operacion > current_date
           end
         end
