@@ -213,9 +213,24 @@ module Verifactu
       sistema_informatico_nombre_razon_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document_root)
       sistema_informatico_nombre_razon_element.content = registro.sistema_informatico.nombre_razon
       sistema_informatico_element.add_child(sistema_informatico_nombre_razon_element)
+
+      if registro.sistema_informatico.nif
       sistema_informatico_nif_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document_root)
       sistema_informatico_nif_element.content = registro.sistema_informatico.nif
       sistema_informatico_element.add_child(sistema_informatico_nif_element)
+      else
+        sistema_informatico_id_otro_element = Nokogiri::XML::Node.new('sum1:IDOtro', xml_document_root)
+        sistema_informatico_id_otro_element.add_child(
+          Nokogiri::XML::Node.new('sum1:CodigoPais', xml_document_root).tap { |e| e.content = registro.sistema_informatico.id_otro.codigo_pais }
+        )
+        sistema_informatico_id_otro_element.add_child(
+          Nokogiri::XML::Node.new('sum1:IDType', xml_document_root).tap { |e| e.content = registro.sistema_informatico.id_otro.id_type }
+        )
+        sistema_informatico_id_otro_element.add_child(
+          Nokogiri::XML::Node.new('sum1:ID', xml_document_root).tap { |e| e.content = registro.sistema_informatico.id_otro.id }
+        )
+        sistema_informatico_element.add_child(sistema_informatico_id_otro_element)
+      end
       sistema_informatico_nombre_sistema_element = Nokogiri::XML::Node.new('sum1:NombreSistemaInformatico', xml_document_root)
       sistema_informatico_nombre_sistema_element.content = registro.sistema_informatico.nombre_sistema_informatico
       sistema_informatico_element.add_child(sistema_informatico_nombre_sistema_element)

@@ -28,6 +28,35 @@ RSpec.describe Verifactu::RegistroAltaBuilder do
       expect(factura.cuota_total).to eq('55.54')
     end
 
+    it 'crea una factura con un sistema informático con IDOtro' do
+
+      # Genera la huella para el registro de alta de una factura
+      huella = huella_inicial
+
+      # Crea una factura de alta con los datos necesarios
+      factura = registro_alta_factura_valido(huella) do |b|
+        b.con_sistema_informatico(
+          nombre_razon: 'Mi empresa SL', 
+          id_otro: {
+            codigo_pais: "DE",
+            id: "123456789",
+            id_type: "06"
+          },
+          nombre_sistema_informatico: 'Mi sistema', 
+          id_sistema_informatico: 'MB',
+          version: '1.0.0', 
+          numero_instalacion: 'Instalacion 1',
+          tipo_uso_posible_solo_verifactu: 'S', 
+          tipo_uso_posible_multi_ot: 'S',
+          indicador_multiples_ot: 'S'
+        )
+      end
+
+      expect(factura.sistema_informatico.id_otro.codigo_pais).to eq('DE')
+      expect(factura.sistema_informatico.id_otro.id).to eq('123456789')
+      expect(factura.sistema_informatico.id_otro.id_type).to eq('06')
+    end
+
   end
 
 end
