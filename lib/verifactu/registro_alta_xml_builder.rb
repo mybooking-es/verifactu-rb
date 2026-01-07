@@ -151,9 +151,17 @@ module Verifactu
         nombre_destinatario_element = Nokogiri::XML::Node.new('sum1:NombreRazon', xml_document_root)
         nombre_destinatario_element.content = destinatario.nombre_razon
         id_destinatario_element.add_child(nombre_destinatario_element)
-        nif_destinatario_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document_root)
-        nif_destinatario_element.content = destinatario.nif
-        id_destinatario_element.add_child(nif_destinatario_element)
+        if destinatario.nif
+          nif_destinatario_element = Nokogiri::XML::Node.new('sum1:NIF', xml_document_root)
+          nif_destinatario_element.content = destinatario.nif
+          id_destinatario_element.add_child(nif_destinatario_element)
+        else
+          ido_destinatario_element = Nokogiri::XML::Node.new('sum1:IDOtro', xml_document_root)
+          ido_destinatario_element.add_child(Nokogiri::XML::Node.new('sum1:CodigoPais', xml_document_root).tap { |e| e.content = destinatario.id_otro.codigo_pais })
+          ido_destinatario_element.add_child(Nokogiri::XML::Node.new('sum1:IDType', xml_document_root).tap { |e| e.content = destinatario.id_otro.id_type })
+          ido_destinatario_element.add_child(Nokogiri::XML::Node.new('sum1:ID', xml_document_root).tap { |e| e.content = destinatario.id_otro.id })
+          id_destinatario_element.add_child(ido_destinatario_element)
+        end
         destinatarios_element.add_child(id_destinatario_element)
       end
 
