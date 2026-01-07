@@ -146,17 +146,20 @@ module Verifactu
 
         # Validaciones de fecha_operacion
         if fecha_operacion
+          fecha_operacion_date = nil
           current_date = Date.today
           min_date = current_date << (20 * 12) # Fecha actual menos 20 años
           max_date = current_date >> 12       # Fecha actual más 1 año
 
-          raise Verifactu::VerifactuError, "fecha_operacion debe ser una instancia de Date" unless fecha_operacion.is_a?(Date)
-          raise Verifactu::VerifactuError, "fecha_operacion no puede ser inferior a #{min_date}" if fecha_operacion < min_date
-          raise Verifactu::VerifactuError, "fecha_operacion no puede ser superior a #{max_date}" if fecha_operacion > max_date
-
-          if ["01", "03", nil].include?(impuesto) && !["14", "15"].include?(clave_regimen)
-            raise Verifactu::VerifactuError, "fecha_operacion no puede ser superior a la fecha actual para Impuesto='01', '03' o no cumplimentado, salvo que ClaveRegimen sea '14' o '15'" if fecha_operacion > current_date
+          begin
+            fecha_operacion_date = Date.parse(fecha_operacion, "dd-mm-yyyy")
+          rescue ArgumentError
+            raise Verifactu::VerifactuError, "fecha_operacion debe ser una fecha válida"
           end
+
+          raise Verifactu::VerifactuError, "fecha_operacion no puede ser inferior a #{min_date}" if fecha_operacion_date < min_date
+          raise Verifactu::VerifactuError, "fecha_operacion no puede ser superior a #{max_date}" if fecha_operacion_date > max_date
+
         end
 
         # Validaciones de descripcion_operacion
@@ -237,6 +240,12 @@ module Verifactu
         sum_importe_desglose = 0
         desglose.each do |d|
           raise Verifactu::VerifactuError, "Cada elemento de desglose debe ser una instancia de Desglose" unless d.is_a?(DetalleDesglose)
+
+          if ["01", "03", nil].include?(d.impuesto) && !["14", "15"].include?(d.clave_regimen)
+            raise Verifactu::VerifactuError, "fecha_operacion no puede ser superior a la fecha actual para Impuesto='01', '03' o no cumplimentado, salvo que ClaveRegimen sea '14' o '15'" if fecha_operacion_date > current_date
+          end
+
+
           if d.impuesto == "01"
             fecha_factura = Date.parse(fecha_operacion || id_factura.fecha_expedicion_factura, "dd-mm-yyyy")
             case d.tipo_impositivo
