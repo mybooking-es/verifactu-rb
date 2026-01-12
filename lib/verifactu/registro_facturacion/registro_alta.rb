@@ -242,7 +242,7 @@ module Verifactu
           raise Verifactu::VerifactuError, "Cada elemento de desglose debe ser una instancia de Desglose" unless d.is_a?(DetalleDesglose)
 
           if ["01", "03", nil].include?(d.impuesto) && !["14", "15"].include?(d.clave_regimen)
-            raise Verifactu::VerifactuError, "fecha_operacion no puede ser superior a la fecha actual para Impuesto='01', '03' o no cumplimentado, salvo que ClaveRegimen sea '14' o '15'" if fecha_operacion_date > current_date
+            raise Verifactu::VerifactuError, "fecha_operacion no puede ser superior a la fecha actual para Impuesto='01', '03' o no cumplimentado, salvo que ClaveRegimen sea '14' o '15'" if fecha_operacion and fecha_operacion_date > current_date
           end
 
 
