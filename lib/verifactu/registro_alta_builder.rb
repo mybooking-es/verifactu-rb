@@ -280,8 +280,10 @@ module Verifactu
         macrodato: @macrodato,
         emitida_por_tercero_o_destinatario: @emitida_por_tercero_o_destinatario,
         tercero: @tercero,
-        destinatarios: @destinatarios,
         cupon: @cupon,
+        # F2 (factura simplificada) y R5 no llevan Destinatarios: Verifactu exige
+        # que sea nil (no vacío). Si no se ha añadido ninguno, se pasa nil.
+        destinatarios: (%w[F2 R5].include?(@tipo_factura) && @destinatarios.empty? ? nil : @destinatarios),
         desglose: @desglose,
         cuota_total: @cuota_total,
         importe_total: @importe_total,

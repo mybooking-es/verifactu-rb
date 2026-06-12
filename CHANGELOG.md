@@ -20,3 +20,7 @@
 - Verifactu ha hecho cambios en los documentos: (se mencionan solo los cambios que afectan a esta gema)
 - - Ahora se permiten los caracteres '<', '>' y '=' en los campos alfanumericos (CAMBIO NO APLICADO POR SEGURIDAD. Se puede modificar `Verifactu::Helper::Validador.cadena_valida()` para permitir dichos caracteres)
 - - Ahora no se permiten los caracteres `"` `'` `<`, `>` y `=` en NumSerieFactura
+
+## [0.3.1] - 2026-06-12
+
+- Tipo de factura F2, factura simplificada. Ajuste para funcionar sin destinatarios.
