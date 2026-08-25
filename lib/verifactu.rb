@@ -23,6 +23,7 @@ require_relative "verifactu/registro_facturacion/remision_voluntaria"
 require_relative "verifactu/registro_facturacion/sistema_informatico"
 
 require_relative "verifactu/consulta_factu/clave_paginacion"
+require_relative "verifactu/consulta_factu/datos_adicionales_respuesta"
 require_relative "verifactu/consulta_factu/consulta_factu"
 require_relative "verifactu/consulta_factu/fecha_expedicion_factura"
 require_relative "verifactu/consulta_factu/filtro_consulta"

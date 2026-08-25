@@ -101,18 +101,21 @@ module Verifactu
     #
     # Agrega datos adicionales de respuesta al XML.
     #
+    # DatosAdicionalesRespuesta y sus hijos se declaran en ConsultaLR.xsd, que es
+    # elementFormDefault="qualified" -> van en el namespace `con`, no en `sum`
+    # (el `sf:` del XSD es solo el TIPO). Con `sum:` la AEAT rechaza el XML.
     def self.agregar_datos_adicionales(xml_document, nombre_razon_emisor, sistema_informatico)
-      datos_adicionales_respuesta_element = Nokogiri::XML::Node.new('sum:DatosAdicionalesRespuesta', xml_document)
+      datos_adicionales_respuesta_element = Nokogiri::XML::Node.new('con:DatosAdicionalesRespuesta', xml_document)
       # Agregar NombreRazonEmisor
       if nombre_razon_emisor
-        nombre_razon_emisor_element = Nokogiri::XML::Node.new('sum:MostrarNombreRazonEmisor', xml_document)
+        nombre_razon_emisor_element = Nokogiri::XML::Node.new('con:MostrarNombreRazonEmisor', xml_document)
         nombre_razon_emisor_element.content = "S"
         datos_adicionales_respuesta_element.add_child(nombre_razon_emisor_element)
       end
 
       # Agregar SistemaInformatico
       if sistema_informatico
-        sistema_informatico_element = Nokogiri::XML::Node.new('sum:MostrarSistemaInformatico', xml_document)
+        sistema_informatico_element = Nokogiri::XML::Node.new('con:MostrarSistemaInformatico', xml_document)
         sistema_informatico_element.content = "S"
         datos_adicionales_respuesta_element.add_child(sistema_informatico_element)
       end

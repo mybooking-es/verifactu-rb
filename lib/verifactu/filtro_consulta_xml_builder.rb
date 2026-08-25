@@ -133,7 +133,8 @@ module Verifactu
       if filtro_consulta.clave_paginacion
         clave_paginacion_element = Nokogiri::XML::Node.new('con:ClavePaginacion', xml_document_root)
 
-        id_emisor_factura_clave_paginacion_element = Nokogiri::XML::Node.new('sum:IdEmisorFactura', xml_document_root)
+        # El XSD (sf:IDFacturaExpedidaBCType) lo llama IDEmisorFactura, con D mayuscula
+        id_emisor_factura_clave_paginacion_element = Nokogiri::XML::Node.new('sum:IDEmisorFactura', xml_document_root)
         id_emisor_factura_clave_paginacion_element.content = filtro_consulta.clave_paginacion.id_emisor_factura
         clave_paginacion_element.add_child(id_emisor_factura_clave_paginacion_element)
 

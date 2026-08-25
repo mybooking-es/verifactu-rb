@@ -12,17 +12,29 @@ module Verifactu
         #TODO implementar validación de NIF via API de AEAT
       end
 
+      # El dia de hoy, en la zona horaria de la aplicacion anfitriona si la hay.
+      #
+      # `Time.zone` lo aporta ActiveSupport, que la gem NO declara como dependencia:
+      # la trae (o no) quien la usa. Sin ActiveSupport el metodo no existe, asi que
+      # el `if Time.zone` que habia aqui levantaba NoMethodError en vez de caer al
+      # `Date.today` de al lado — la gem no se podia usar fuera de una app Rails-like
+      # y su propia suite de tests no pasaba.
+      #
+      # @return [Date]
+      def self.hoy
+        if Time.respond_to?(:zone) && Time.zone
+          Time.zone.today
+        else
+          Date.today
+        end
+      end
+
       # Validar si la fecha es válida y no está en el futuro.
       # @param fecha [String, Date] Fecha a validar
       # @raise [Verifactu::VerifactuError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
       def self.validar_fecha_pasada(fecha)
         fecha_d = self.validar_fecha(fecha)
-        if Time.zone
-          today = Time.zone.today
-        else
-          today = Date.today
-        end
-        raise Verifactu::VerifactuError, "Fecha no puede estar en el futuro" if fecha_d > today
+        raise Verifactu::VerifactuError, "Fecha no puede estar en el futuro" if fecha_d > self.hoy
       end
 
       # Validar si la fecha es válida y no está en el pasado.
@@ -30,12 +42,7 @@ module Verifactu
       # @raise [Verifactu::VerifactuError] Si la fecha es nil, no es un objeto Date o una cadena de fecha válida
       def self.validar_fecha_futura(fecha)
         fecha_d = self.validar_fecha(fecha)
-        if Time.zone
-          today = Time.zone.today
-        else
-          today = Date.today
-        end
-        raise Verifactu::VerifactuError, "Fecha no puede estar en el pasado" if fecha_d < today
+        raise Verifactu::VerifactuError, "Fecha no puede estar en el pasado" if fecha_d < self.hoy
       end
 
       # Validar si la fecha es válida y es el último día del año.
@@ -44,7 +51,7 @@ module Verifactu
       def self.validar_fecha_fin_de_ano(fecha)
         fecha_d = self.validar_fecha(fecha)
 
-        aeat_year = Date.today.year
+        aeat_year = self.hoy.year
         valid_years = [aeat_year, aeat_year - 1]
         raise Verifactu::VerifactuError, "El año de la fecha debe ser igual al año actual o al año anterior" unless valid_years.include?(fecha_d.year)
         raise Verifactu::VerifactuError, "Fecha debe tener el formato 31-12-20XX" unless fecha_d == Date.new(fecha_d.year, 12, 31)
@@ -94,12 +101,22 @@ module Verifactu
       # @param cadena [String] Cadena a validar
       # @raise [Verifactu::VerifactuError] Si la cadena es nil, no es una cadena o contiene caracteres no imprimibles
       # @note Se excluyen los caracteres '<', '>' y '=' desde 09/09/2025 (se vuelven a permitir desde 23/10/2025)
+      #
+      # Acepta Unicode imprimible, NO solo ASCII. Los tipos de texto del XSD de AEAT
+      # (TextMax120Type y familia) son `restriction base="string"` con unicamente
+      # `maxLength`: ni patron ni restriccion de juego de caracteres. Exigir
+      # `ascii_only?` rechazaba nombres espanoles perfectamente validos que la AEAT
+      # acepta sin problema — 'Compania Munoz S.L.', 'Jose Penniscola', 'Autos Innigo' —
+      # y en la aplicacion eso se traducia en dejar la factura sin enviar.
+      #
+      # Lo que si se rechaza son los caracteres de control (Cc), que romperian el XML.
       def self.cadena_valida(cadena)
         raise Verifactu::VerifactuError, "Cadena no puede ser nil" if cadena.nil?
         raise Verifactu::VerifactuError, "Cadena debe ser una cadena" unless cadena.is_a?(String)
-        raise Verifactu::VerifactuError, "Cadena debe contener solo caracteres ASCII imprimibles" unless cadena.ascii_only? && cadena.chars.all? { |char| char.ord.between?(32, 126) }
-        # Comentar la siguiente línea para permitir los caracteres '<', '>' y '='
-        raise Verifactu::VerifactuError, "Cadena no puede contener los caracteres '<', '>' o '='" if cadena.include?('<') || cadena.include?('>') || cadena.include?('=')
+        raise Verifactu::VerifactuError, "Cadena debe estar codificada en UTF-8 valido" unless cadena.valid_encoding?
+        raise Verifactu::VerifactuError, "Cadena no puede contener caracteres de control" if cadena.match?(/\p{Cc}/)
+        # Descomentar la siguiente linea para volver a excluir los caracteres '<', '>' y '='
+        # raise Verifactu::VerifactuError, "Cadena no puede contener los caracteres '<', '>' o '='" if cadena.include?('<') || cadena.include?('>') || cadena.include?('=')
       end
 
       # Validar si la cadena es válida (versión que retorna true/false)

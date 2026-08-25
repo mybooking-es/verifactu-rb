@@ -24,3 +24,7 @@
 ## [0.3.1] - 2026-06-12
 
 - Tipo de factura F2, factura simplificada. Ajuste para funcionar sin destinatarios.
+
+## [0.3.2] - 2026-08-25
+
+- Consulta de facturas enviadas.
