@@ -6,6 +6,10 @@ module Verifactu
     URL_PROD = 'https://www1.agenciatributaria.gob.es/wlpl/TIKE-CONT/ws/SistemaFacturacion/VerifactuSOAP'
     URL_PROD_SELLO = 'https://www10.agenciatributaria.gob.es/wlpl/TIKE-CONT/ws/SistemaFacturacion/VerifactuSOAP'
 
+    def initialize(log_level: :debug)
+      @log_level = log_level
+    end
+
     # Envia un registro de facturación a Verifactu
     # @param environment [Symbol] :pre_prod o :prod
     # @param reg_factu_xml [String] XML del registro de facturación
@@ -159,7 +163,7 @@ module Verifactu
         ssl_cert_key: key,
         ssl_verify_mode: :peer,
         log: true,
-        log_level: :debug,
+        log_level: @log_level,
         pretty_print_xml: true,
         convert_request_keys_to: :none,
         headers: {
