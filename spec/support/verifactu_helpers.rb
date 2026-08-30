@@ -52,7 +52,7 @@ module VerifactuHelpers
       .con_encadenamiento_primer_registro
       .con_sistema_informatico(nombre_razon: 'Mi empresa SL', nif: 'B12345674',
                                nombre_sistema_informatico: 'Mi sistema', id_sistema_informatico: 'MB',
-                               version: '1.0.0', numero_instalacion: 'Instalación 1',
+                               version: '1.0.0', numero_instalacion: 'Instalacion 1',
                                tipo_uso_posible_solo_verifactu: 'S', tipo_uso_posible_multi_ot: 'S',
                                indicador_multiples_ot: 'S')
       .con_fecha_hora_huso_gen_registro('2025-07-22T10:00:00+02:00')

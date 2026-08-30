@@ -32,10 +32,9 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
-  spec.add_dependency "nokogiri", "1.17.2"
+  spec.add_dependency "nokogiri", ">= 1.17.2"
   spec.add_dependency "bigdecimal"
   spec.add_dependency "savon"
-  spec.add_dependency "rack", "~> 2.2"
   spec.add_dependency "rqrcode"
   spec.add_dependency "erb"
 
