@@ -19,7 +19,7 @@ module Verifactu
         else
           raise Verifactu::VerifactuError, "codigo_pais is required" if codigo_pais.nil?
           raise Verifactu::VerifactuError, "codigo_pais must be a string" unless Verifactu::Helper::Validador.cadena_valida?(codigo_pais)
-          raise Verifactu::VerifactuError, "codigo_pais debe estar dentro de #{Verifactu::Config::PAISES_PERMITIDOS.join(', ')}" unless Verifactu::Config::PAISES_PERMITIDOS.include?(codigo_pais)
+          raise Verifactu::VerifactuError, "codigo_pais debe estar dentro de #{self.class.paises_permitidos.join(', ')}" unless self.class.paises_permitidos.include?(codigo_pais)
           if codigo_pais == 'ES'
             raise Verifactu::VerifactuError, "id_type debe ser pasaporte español (03) o no censado (07)" unless id_type == '03' || id_type == '07'
           end
@@ -32,6 +32,23 @@ module Verifactu
         @codigo_pais = codigo_pais.upcase
         @id_type = id_type
         @id = id
+      end
+
+      def self.paises_permitidos
+        unless @paises_permitidos
+          xsd_doc =
+            Nokogiri.XML(
+              File.read(
+                File.join(File.expand_path('../../../../', __FILE__), 'SuministroInformacion.xsd')
+              )
+            )
+          xsd_doc.remove_namespaces!
+          @paises_permitidos =
+            xsd_doc.xpath(
+              "//simpleType[@name='CountryType2']/restriction/enumeration/@value"
+            ).map(&:text)
+        end
+        @paises_permitidos
       end
     end
   end
