@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "nokogiri", "1.19.4"
   spec.add_dependency "bigdecimal"
   spec.add_dependency "savon"
-  spec.add_dependency "rack", "~> 2.2"
+  spec.add_dependency "rack", "~> 3.2"
   spec.add_dependency "rqrcode"
   spec.add_dependency "erb"
 

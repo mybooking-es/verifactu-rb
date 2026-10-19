@@ -32,3 +32,7 @@
 ## [0.3.3] - 2026-10-19
 
 - Actualizado nokogiri 1.19.4
+
+## [0.3.4] - 2026-10-19
+
+- Actualizado rack 3.2.7
