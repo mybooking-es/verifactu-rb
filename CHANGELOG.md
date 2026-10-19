@@ -28,3 +28,7 @@
 ## [0.3.2] - 2026-08-25
 
 - Consulta de facturas enviadas.
+
+## [0.3.3] - 2026-10-19
+
+- Actualizado nokogiri 1.19.4
