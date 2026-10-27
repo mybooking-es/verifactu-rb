@@ -178,10 +178,20 @@ module Verifactu
         # Agrega los detalles del desglose
         item_element.add_child(Nokogiri::XML::Node.new('sum1:Impuesto', xml_document_root).tap { |e| e.content = item.impuesto })
         item_element.add_child(Nokogiri::XML::Node.new('sum1:ClaveRegimen', xml_document_root).tap { |e| e.content = item.clave_regimen })
-        item_element.add_child(Nokogiri::XML::Node.new('sum1:CalificacionOperacion', xml_document_root).tap { |e| e.content = item.calificacion_operacion })
-        item_element.add_child(Nokogiri::XML::Node.new('sum1:TipoImpositivo', xml_document_root).tap { |e| e.content = item.tipo_impositivo })
-        item_element.add_child(Nokogiri::XML::Node.new('sum1:BaseImponibleOimporteNoSujeto', xml_document_root).tap { |e| e.content = item.base_imponible_o_importe_no_sujeto })
-        item_element.add_child(Nokogiri::XML::Node.new('sum1:CuotaRepercutida', xml_document_root).tap { |e| e.content = item.cuota_repercutida })
+
+        if item.operacion_exenta
+          # Operación EXENTA (L10, p. ej. E2 exportación / E5 intracomunitaria): el esquema
+          # AEAT define un xs:choice entre CalificacionOperacion y OperacionExenta, así que
+          # se emite SOLO OperacionExenta. Una operación exenta no repercute IVA → sin
+          # TipoImpositivo ni CuotaRepercutida.
+          item_element.add_child(Nokogiri::XML::Node.new('sum1:OperacionExenta', xml_document_root).tap { |e| e.content = item.operacion_exenta })
+          item_element.add_child(Nokogiri::XML::Node.new('sum1:BaseImponibleOimporteNoSujeto', xml_document_root).tap { |e| e.content = item.base_imponible_o_importe_no_sujeto })
+        else
+          item_element.add_child(Nokogiri::XML::Node.new('sum1:CalificacionOperacion', xml_document_root).tap { |e| e.content = item.calificacion_operacion })
+          item_element.add_child(Nokogiri::XML::Node.new('sum1:TipoImpositivo', xml_document_root).tap { |e| e.content = item.tipo_impositivo })
+          item_element.add_child(Nokogiri::XML::Node.new('sum1:BaseImponibleOimporteNoSujeto', xml_document_root).tap { |e| e.content = item.base_imponible_o_importe_no_sujeto })
+          item_element.add_child(Nokogiri::XML::Node.new('sum1:CuotaRepercutida', xml_document_root).tap { |e| e.content = item.cuota_repercutida })
+        end
       end
 
       # Agregar CuotaTotal

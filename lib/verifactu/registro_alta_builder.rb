@@ -194,6 +194,34 @@ module Verifactu
 
     end
 
+    #
+    # Add an EXEMPT breakdown line (operación exenta de IVA, p. ej. exportación
+    # extracomunitaria art. 21 = E2, entrega intracomunitaria art. 25 = E5).
+    # Emits <OperacionExenta> (L10) instead of <CalificacionOperacion>, with no
+    # TipoImpositivo nor CuotaRepercutida (an exempt operation does not charge VAT).
+    # @param operacion_exenta [String] Exemption reason (L10: E1..E6).
+    #
+    def agregar_detalle_desglose_exenta(impuesto:, clave_regimen:, operacion_exenta:,
+                                        base_imponible_o_importe_no_sujeto:, base_imponible_a_coste: nil)
+
+      desglose_item = Verifactu::RegistroFacturacion::DetalleDesglose.create_operacion_exenta(
+                                                impuesto: impuesto,
+                                                clave_regimen: clave_regimen,
+                                                # CalificacionOperacion y OperacionExenta son excluyentes en el
+                                                # esquema AEAT (xs:choice). Para exentas se emite OperacionExenta;
+                                                # este valor interno NO se renderiza (ver RegistroAltaXmlBuilder),
+                                                # solo satisface la validación del constructor.
+                                                calificacion_operacion: 'S1',
+                                                operacion_exenta: operacion_exenta,
+                                                base_imponible_o_importe_no_sujeto: base_imponible_o_importe_no_sujeto,
+                                                base_imponible_a_coste: base_imponible_a_coste
+                                             )
+
+      @desglose << desglose_item
+      self
+
+    end
+
     def tiene_cupon(valor = 'S')
       @cupon = valor
       self
